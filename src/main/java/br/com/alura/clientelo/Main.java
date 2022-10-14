@@ -14,16 +14,18 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
-
     public static void main(String[] args) throws IOException, URISyntaxException {
         Pedido[] pedidos = ProcessadorDeCsv.processaArquivo("pedidos.csv");
-
+        Relatorios relatorios = new Relatorios();
+        relatorios.maisVendidos(pedidos);
+        //Gerar relatórios Semana 1
 
         int totalDeProdutosVendidos = 0;
         int totalDePedidosRealizados = 0;
