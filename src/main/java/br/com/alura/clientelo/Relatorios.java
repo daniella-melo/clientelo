@@ -32,14 +32,10 @@ public class Relatorios {
             int quantidade = 0;
             BigDecimal montante = BigDecimal.ZERO;
             ArrayList<Pedido> pedidosDestaCategoria = new ArrayList<>();
-            for (Pedido pedido: pedidos) {
-                if(pedido == null) break;
-                if(pedido.getCategoria() == categoria){
-                    pedidosDestaCategoria.add(pedido);
-                    quantidade += pedido.getQuantidade();
-                    montante = montante.add(pedido.getValorTotal());
-                }
-            }
+
+            pedidosDestaCategoria.addAll(pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).toList());
+            montante = pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).map(p -> p.getValorTotal()).reduce(montante, BigDecimal::add);
+            quantidade = pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).map(p-> p.getQuantidade()).reduce(quantidade, Integer::sum);
 
             mapPedidosPorCategoria.put(categoria, pedidosDestaCategoria);
             logger.info("CATEGORIA: {}",categoria);
