@@ -1,5 +1,7 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.model.Pedido;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;

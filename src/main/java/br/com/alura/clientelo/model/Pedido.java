@@ -1,9 +1,9 @@
-package br.com.alura.clientelo;
+package br.com.alura.clientelo.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Pedido implements Comparable<Pedido>{
+public class Pedido{
 
     private String categoria;
     private String produto;
@@ -61,11 +61,5 @@ public class Pedido implements Comparable<Pedido>{
                 ", quantidade=" + quantidade +
                 ", data=" + data +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Pedido outroPedido) {
-      //  return this.quantidade.compareTo(outroPedido.getQuantidade());
-        return 0;
     }
 }

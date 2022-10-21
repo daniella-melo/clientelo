@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.model.Pedido;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
