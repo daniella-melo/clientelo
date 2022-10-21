@@ -64,7 +64,7 @@ public class Relatorios {
 
                 if(!jahProcessouProduto){
                     BigDecimal precoAtual = pedidoAtual.getPreco().divide(new BigDecimal(pedidoAtual.getQuantidade()), 2, RoundingMode.HALF_UP);
-                    if (produtoMaisCaro == null || precoProdutoMaisCaro.compareTo(precoAtual) == 1) {
+                    if (produtoMaisCaro == null || precoAtual.compareTo(precoProdutoMaisCaro) == 1 ) {
                         produtoMaisCaro = pedidoAtual.getProduto();
                         precoProdutoMaisCaro = precoAtual;
                     }
