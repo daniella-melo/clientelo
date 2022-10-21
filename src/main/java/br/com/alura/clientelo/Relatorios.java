@@ -54,21 +54,11 @@ public class Relatorios {
             BigDecimal precoProdutoMaisCaro = BigDecimal.ZERO;
 
             for (Pedido pedidoAtual : pedidos){
-                boolean jahProcessouProduto = false;
-
-                for (int j = 0; j < produtosProcessados.length; j++) {
-                    if (pedidoAtual.getProduto().equalsIgnoreCase(produtosProcessados[j])) {
-                        jahProcessouProduto = true;
-                    }
-                }
-
-                if(!jahProcessouProduto){
                     BigDecimal precoAtual = pedidoAtual.getPreco().divide(new BigDecimal(pedidoAtual.getQuantidade()), 2, RoundingMode.HALF_UP);
                     if (produtoMaisCaro == null || precoAtual.compareTo(precoProdutoMaisCaro) == 1 ) {
                         produtoMaisCaro = pedidoAtual.getProduto();
                         precoProdutoMaisCaro = precoAtual;
                     }
-                }
             }
             logger.info("CATEGORIA: {}",pair.getKey());
             logger.info("PRODUTO: {}",produtoMaisCaro);
