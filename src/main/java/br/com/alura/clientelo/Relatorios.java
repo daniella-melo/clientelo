@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.Main;
 import br.com.alura.clientelo.model.Pedido;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,22 +34,19 @@ public class Relatorios {
             int quantidade = 0;
             BigDecimal montante = BigDecimal.ZERO;
             ArrayList<Pedido> pedidosDestaCategoria = new ArrayList<>();
-            for (Pedido pedido: pedidos) {
-                if(pedido == null) break;
-                if(pedido.getCategoria() == categoria){
-                    pedidosDestaCategoria.add(pedido);
-                    quantidade += pedido.getQuantidade();
-                    montante = montante.add(pedido.getValorTotal());
-                }
-            }
+
+            pedidosDestaCategoria.addAll(pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).toList());
+            montante = pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).map(p -> p.getValorTotal()).reduce(montante, BigDecimal::add);
+            quantidade = pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).map(p-> p.getQuantidade()).reduce(quantidade, Integer::sum);
 
             mapPedidosPorCategoria.put(categoria, pedidosDestaCategoria);
             logger.info("CATEGORIA: {}",categoria);
             logger.info("QUANTIDADE: {}",quantidade);
             logger.info("MONTANTE: {}",montante);
-
         }
+
         return mapPedidosPorCategoria;
+
     }
 
     public void produtoMaisCaroPorCategoria(HashMap<String, ArrayList<Pedido>> map){
@@ -59,20 +57,10 @@ public class Relatorios {
             BigDecimal precoProdutoMaisCaro = BigDecimal.ZERO;
 
             for (Pedido pedidoAtual : pedidos){
-                boolean jahProcessouProduto = false;
-
-                for (int j = 0; j < produtosProcessados.length; j++) {
-                    if (pedidoAtual.getProduto().equalsIgnoreCase(produtosProcessados[j])) {
-                        jahProcessouProduto = true;
-                    }
-                }
-
-                if(!jahProcessouProduto){
-                    BigDecimal precoAtual = pedidoAtual.getPreco().divide(new BigDecimal(pedidoAtual.getQuantidade()), 2, RoundingMode.HALF_UP);
-                    if (produtoMaisCaro == null || precoProdutoMaisCaro.compareTo(precoAtual) == 1) {
-                        produtoMaisCaro = pedidoAtual.getProduto();
-                        precoProdutoMaisCaro = precoAtual;
-                    }
+                BigDecimal precoAtual = pedidoAtual.getPreco().divide(new BigDecimal(pedidoAtual.getQuantidade()), 2, RoundingMode.HALF_UP);
+                if (produtoMaisCaro == null || precoAtual.compareTo(precoProdutoMaisCaro) > 0 ) {
+                    produtoMaisCaro = pedidoAtual.getProduto();
+                    precoProdutoMaisCaro = precoAtual;
                 }
             }
             logger.info("CATEGORIA: {}",pair.getKey());
