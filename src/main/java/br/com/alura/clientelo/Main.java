@@ -16,30 +16,29 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
         List<Pedido> pedidos = ProcessadorDeCsv.processaArquivo("pedidos.csv");
-        ValoresGerais valoresGerais = new ValoresGerais();
-        valoresGerais = valoresGerais.getAll(pedidos);
+        PedidosEstatisticas pedidosEstatisticas = new PedidosEstatisticas(pedidos);
+        pedidosEstatisticas = pedidosEstatisticas.getEstatisticasGerais();
 
         logger.info("##### RELATÓRIO DE VALORES TOTAIS #####");
-        logger.info("TOTAL DE PEDIDOS REALIZADOS: {}", valoresGerais.getTotalDePedidosRealizados());
-        logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", valoresGerais.getTotalDeProdutosVendidos());
-        logger.info("TOTAL DE CATEGORIAS: {}", valoresGerais.getTotalDeCategorias());
-        logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(valoresGerais.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
-        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(valoresGerais.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(valoresGerais.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), valoresGerais.getPedidoMaisBarato().getProduto());
-        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(valoresGerais.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(valoresGerais.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), valoresGerais.getPedidoMaisCaro().getProduto());
+        logger.info("TOTAL DE PEDIDOS REALIZADOS: {}", pedidosEstatisticas.getTotalDePedidosRealizados());
+        logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", pedidosEstatisticas.getTotalDeProdutosVendidos());
+        logger.info("TOTAL DE CATEGORIAS: {}", pedidosEstatisticas.getTotalDeCategorias());
+        logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
+        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosEstatisticas.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosEstatisticas.getPedidoMaisBarato().getProduto());
+        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosEstatisticas.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosEstatisticas.getPedidoMaisCaro().getProduto());
         logger.info("### FIM DO RELATÓRIO ###");
 
-        Relatorios relatorios = new Relatorios();
         //Gerar relatórios Semana 1
         logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-        relatorios.maisVendidos(pedidos);
+        pedidosEstatisticas.maisVendidos();
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-        HashMap<String, ArrayList<Pedido>> mapPedidosPorCategoria = relatorios.vendasPorCategoria(pedidos, valoresGerais.getTotalDeCategorias());
+       // HashMap<String, ArrayList<Pedido>> mapPedidosPorCategoria = relatorios.vendasPorCategoria(pedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-        relatorios.produtoMaisCaroPorCategoria(mapPedidosPorCategoria);
+        //relatorios.produtoMaisCaroPorCategoria(mapPedidosPorCategoria);
         logger.info("-------------------");
     }
 }

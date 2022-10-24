@@ -1,20 +1,41 @@
 package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class ValoresGerais {
-    private int totalDeProdutosVendidos= 0;
-    private int totalDePedidosRealizados= 0;
-    private BigDecimal montanteDeVendas = BigDecimal.ZERO;
-    private Pedido pedidoMaisBarato = null;
+public class PedidosEstatisticas {
+    private CategoriasEstatisticas categoriasEstatisticas = new CategoriasEstatisticas();
+    private List<Pedido> pedidos;
+    private int totalDeProdutosVendidos;
+    private int totalDePedidosRealizados;
+    private BigDecimal montanteDeVendas;
+    private Pedido pedidoMaisBarato;
+    private Pedido pedidoMaisCaro;
 
-    private Pedido pedidoMaisCaro = null;
-    private int totalDeCategorias = 0;
-    public ValoresGerais getAll(List<Pedido> pedidos) {
+    private int totalDeCategorias;
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
+    public PedidosEstatisticas(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+        this.totalDeProdutosVendidos = 0;
+        this.totalDePedidosRealizados = 0;
+        this.montanteDeVendas = BigDecimal.ZERO;
+        this.pedidoMaisBarato = null;
+        this.pedidoMaisCaro = null;
+        this.totalDeCategorias = 0;
+    }
+
+    public List<Pedido> maisVendidos(){
+        pedidos.sort(Comparator.comparing(Pedido::getQuantidade).reversed());
+        logMaisVendidos(pedidos);
+        return pedidos;
+    }
+
+    public PedidosEstatisticas getEstatisticasGerais(){
         String[] categoriasProcessadas = new String[10];
 
         for (int i = 0; i < pedidos.size(); i++) {
@@ -61,29 +82,27 @@ public class ValoresGerais {
         return this;
     }
 
+    private void logMaisVendidos(List<Pedido> pedidos){
+        for (Pedido pedido : this.pedidos) {
+            logger.info("PRODUTO: {}",pedido.getProduto());
+            logger.info("QUANTIDADE: {}", pedido.getQuantidade());
+        }
+    }
 
     public int getTotalDeProdutosVendidos() {
         return totalDeProdutosVendidos;
     }
-
     public int getTotalDePedidosRealizados() {
         return totalDePedidosRealizados;
     }
-
     public BigDecimal getMontanteDeVendas() {
         return montanteDeVendas;
     }
-
     public Pedido getPedidoMaisBarato() {
         return pedidoMaisBarato;
     }
-
     public Pedido getPedidoMaisCaro() {
         return pedidoMaisCaro;
     }
-
-    public int getTotalDeCategorias() {
-        return totalDeCategorias;
-    }
-
+    public int getTotalDeCategorias() {return totalDeCategorias;}
 }
