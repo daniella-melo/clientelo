@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,9 +28,9 @@ public class PedidosEstatisticasTest {
         pedidos.add(new Pedido("LIVROS","Clean Code","BIA", new BigDecimal(70),6, LocalDate.now()));
 
         produtosVendidos = new ArrayList<>();
-        produtosVendidos.add(new Produto("Clean Code", "LIVROS", 6));
-        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", 3));
-        produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA", 2));
+        produtosVendidos.add(new Produto("Clean Code", "LIVROS", 6, new BigDecimal(70)));
+        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", 3, BigDecimal(1000)));
+        produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA", 2,  new BigDecimal(1000)));
 
     }
 

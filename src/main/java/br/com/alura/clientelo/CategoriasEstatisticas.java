@@ -2,6 +2,7 @@ package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,16 +47,17 @@ public class CategoriasEstatisticas {
         return mapPedidosPorCategoria;
     }
 
-     public void vendasPorCategoria(List<Pedido> pedidos){
+     public List<Categoria> vendasPorCategoria(List<Pedido> pedidos){
          HashMap<Categoria, ArrayList<Pedido>> mapPedidosPorCategoria = montarCategorias(pedidos);
          List<Categoria> categorias = new ArrayList<>();
          for (Map.Entry<Categoria, ArrayList<Pedido>> pair : mapPedidosPorCategoria.entrySet()) {
             categorias.add(pair.getKey());
          }
          logDetalhesCategorias(categorias);
+         return categorias;
      }
 
-     public void produtoMaisCaroPorCategoria(HashMap<Categoria, ArrayList<Pedido>> map){
+     public List<Produto> produtoMaisCaroPorCategoria(HashMap<Categoria, ArrayList<Pedido>> map){
          for (Map.Entry<Categoria, ArrayList<Pedido>> pair : map.entrySet()){
              List<Pedido> pedidos = pair.getValue();
              String[] produtosProcessados = new String[20];
@@ -71,6 +73,7 @@ public class CategoriasEstatisticas {
              }
              logProdutoMaisCaroPorCategoria(pair.getKey().getNome(), produtoMaisCaro, precoProdutoMaisCaro);
          }
+         return null;
      }
 
      public void logDetalhesCategorias(List<Categoria> categorias){

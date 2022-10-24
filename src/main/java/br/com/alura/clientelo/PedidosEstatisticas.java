@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class PedidosEstatisticas {
@@ -30,31 +31,41 @@ public class PedidosEstatisticas {
         this.totalDeCategorias = 0;
     }
 
-    public List<Produto> produtoMaisVendidos(){
-        if(this.pedidos == null) return null;
-        List<Produto> listProdutos = new ArrayList<>();
+    private Set<String> getProdutoFromPedidos(){
         Set<String> produtos = new HashSet<>();
         for (Pedido pedido: this.pedidos) {
             if(pedido == null) break;
             produtos.add(pedido.getProduto());
         }
+        return produtos;
+    }
+    public List<Produto> produtoMaisVendidos(){
+        if(this.pedidos == null) return null;
+        List<Produto> listProdutos = new ArrayList<>();
+        Set<String> produtos = getProdutoFromPedidos();
 
-        for (String produto: produtos) {
+        listProdutos = montarProdutos(produtos);
+
+        listProdutos.sort(Comparator.comparing(Produto::getQtdDeVendas).reversed());
+        logMaisVendidos(listProdutos);
+        return listProdutos;
+    }
+
+    private List<Produto> montarProdutos(Set<String> set){
+        List<Produto> listProdutos = new ArrayList<>();
+        for (String produto: set) {
             int quantidade = 0;
             String categoria = null;
             BigDecimal montante = BigDecimal.ZERO;
+            Optional<BigDecimal> precoUnitario = Optional.of(BigDecimal.ZERO);
 
             quantidade = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
             categoria = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
+            precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
+                    .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst();
 
-            Produto newProduto = new Produto(produto, categoria, quantidade);
+            Produto newProduto = new Produto(produto, categoria, quantidade, precoUnitario);
             listProdutos.add(newProduto);
-        }
-
-        listProdutos.sort(Comparator.comparing(Produto::getQtdDeVendas).reversed());
-        for (Produto produto : listProdutos) {
-            logger.info("PRODUTO: {}",produto.getNome());
-            logger.info("QUANTIDADE: {}", produto.getQtdDeVendas());
         }
         return listProdutos;
     }
@@ -105,10 +116,10 @@ public class PedidosEstatisticas {
         return this;
     }
 
-    private void logMaisVendidos(List<Pedido> pedidos){
-        for (Pedido pedido : this.pedidos) {
-            logger.info("PRODUTO: {}",pedido.getProduto());
-            logger.info("QUANTIDADE: {}", pedido.getQuantidade());
+    private void logMaisVendidos(List<Produto> produtos){
+        for (Produto produto : produtos) {
+            logger.info("PRODUTO: {}",produto.getNome());
+            logger.info("QUANTIDADE: {}", produto.getQtdDeVendas());
         }
     }
 

@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
         List<Pedido> pedidos = ProcessadorDeCsv.processaArquivo("pedidos.csv");
+        CategoriasEstatisticas categoriasEstatisticas = new CategoriasEstatisticas();
         PedidosEstatisticas pedidosEstatisticas = new PedidosEstatisticas(pedidos);
         pedidosEstatisticas = pedidosEstatisticas.getEstatisticasGerais();
 
@@ -35,7 +37,7 @@ public class Main {
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-       // HashMap<String, ArrayList<Pedido>> mapPedidosPorCategoria = relatorios.vendasPorCategoria(pedidos);
+        List<Categoria> detalhesCategoria = categoriasEstatisticas.vendasPorCategoria(pedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
