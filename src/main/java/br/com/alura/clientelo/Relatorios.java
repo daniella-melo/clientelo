@@ -10,12 +10,32 @@ import java.util.*;
 public class Relatorios {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public void maisVendidos(List<Pedido> pedidos){
-        pedidos.sort(Comparator.comparing(Pedido::getQuantidade).reversed());
+    public void produtoMaisVendidos(List<Pedido> pedidos){
+        List<Produto> listProdutos = new ArrayList<>();
+        Set<String> produtos = new HashSet<>();
+        for (Pedido pedido: pedidos) {
+            if(pedido == null) break;
+            produtos.add(pedido.getProduto());
+        }
 
-        for (Pedido pedido : pedidos) {
-            logger.info("PRODUTO: {}",pedido.getProduto());
-            logger.info("QUANTIDADE: {}", pedido.getQuantidade());
+        for (String produto: produtos) {
+            int quantidade = 0;
+            String categoria = null;
+            for (Pedido pedido : pedidos) {
+                if (pedido == null) break;
+                if (pedido.getProduto() == produto) {
+                    quantidade += pedido.getQuantidade();
+                    categoria = pedido.getCategoria();
+                }
+            }
+            Produto newProduto = new Produto(produto, categoria, quantidade);
+            listProdutos.add(newProduto);
+        }
+
+        listProdutos.sort(Comparator.comparing(Produto::getQtdDeVendas).reversed());
+        for (Produto produto : listProdutos) {
+            logger.info("PRODUTO: {}",produto.getNome());
+            logger.info("QUANTIDADE: {}", produto.getQtdDeVendas());
         }
     }
 
