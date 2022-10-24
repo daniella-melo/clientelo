@@ -25,7 +25,7 @@ public class Relatorios {
             BigDecimal montante = BigDecimal.ZERO;
 
             quantidade = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
-            categoria = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).toString();
+            categoria = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
 
             Produto newProduto = new Produto(produto, categoria, quantidade);
             listProdutos.add(newProduto);
