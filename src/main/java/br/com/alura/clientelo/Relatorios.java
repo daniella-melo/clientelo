@@ -17,8 +17,7 @@ public class Relatorios {
             if(pedido == null) break;
             produtos.add(pedido.getProduto());
         }
-        //quantidade = pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).map(p-> p.getQuantidade()).reduce(quantidade, Integer::sum);
-
+        
         for (String produto: produtos) {
             int quantidade = 0;
             String categoria = null;
