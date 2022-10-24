@@ -30,7 +30,7 @@ public class Main {
 
         //Gerar relatórios Semana 1
         logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-        pedidosEstatisticas.maisVendidos();
+        List<Pedido> maisVendidos = pedidosEstatisticas.maisVendidos();
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
