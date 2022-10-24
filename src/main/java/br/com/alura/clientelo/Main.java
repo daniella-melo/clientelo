@@ -30,7 +30,7 @@ public class Main {
         Relatorios relatorios = new Relatorios();
         //Gerar relatórios Semana 1
         logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-        relatorios.maisVendidos(pedidos);
+        relatorios.produtoMaisVendidos(pedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
