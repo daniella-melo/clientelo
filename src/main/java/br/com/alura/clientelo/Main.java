@@ -1,6 +1,7 @@
 package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class Main {
 
         //Gerar relatórios Semana 1
         logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-        List<Pedido> maisVendidos = pedidosEstatisticas.maisVendidos();
+        List<Produto> produtoMaisVendidos = pedidosEstatisticas.produtoMaisVendidos();
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");

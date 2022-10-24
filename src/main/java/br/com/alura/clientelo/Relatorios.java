@@ -2,6 +2,7 @@ package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.Main;
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,12 +13,30 @@ import java.util.*;
 public class Relatorios {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public void maisVendidos(List<Pedido> pedidos){
-        pedidos.sort(Comparator.comparing(Pedido::getQuantidade).reversed());
+    public void produtoMaisVendidos(List<Pedido> pedidos){
+        List<Produto> listProdutos = new ArrayList<>();
+        Set<String> produtos = new HashSet<>();
+        for (Pedido pedido: pedidos) {
+            if(pedido == null) break;
+            produtos.add(pedido.getProduto());
+        }
 
-        for (Pedido pedido : pedidos) {
-            logger.info("PRODUTO: {}",pedido.getProduto());
-            logger.info("QUANTIDADE: {}", pedido.getQuantidade());
+        for (String produto: produtos) {
+            int quantidade = 0;
+            String categoria = null;
+            BigDecimal montante = BigDecimal.ZERO;
+
+            quantidade = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
+            categoria = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).toString();
+
+            Produto newProduto = new Produto(produto, categoria, quantidade);
+            listProdutos.add(newProduto);
+        }
+
+        listProdutos.sort(Comparator.comparing(Produto::getQtdDeVendas).reversed());
+        for (Produto produto : listProdutos) {
+            logger.info("PRODUTO: {}",produto.getNome());
+            logger.info("QUANTIDADE: {}", produto.getQtdDeVendas());
         }
     }
 

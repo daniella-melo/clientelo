@@ -1,6 +1,7 @@
 package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +30,34 @@ public class PedidosEstatisticas {
         this.totalDeCategorias = 0;
     }
 
-    public List<Pedido> maisVendidos(){
-        pedidos.sort(Comparator.comparing(Pedido::getQuantidade).reversed());
-        logMaisVendidos(pedidos);
-        return pedidos;
-    }
+    public List<Produto> produtoMaisVendidos(){
+        if(this.pedidos == null) return null;
+        List<Produto> listProdutos = new ArrayList<>();
+        Set<String> produtos = new HashSet<>();
+        for (Pedido pedido: this.pedidos) {
+            if(pedido == null) break;
+            produtos.add(pedido.getProduto());
+        }
 
+        for (String produto: produtos) {
+            int quantidade = 0;
+            String categoria = null;
+            BigDecimal montante = BigDecimal.ZERO;
+
+            quantidade = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
+            categoria = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
+
+            Produto newProduto = new Produto(produto, categoria, quantidade);
+            listProdutos.add(newProduto);
+        }
+
+        listProdutos.sort(Comparator.comparing(Produto::getQtdDeVendas).reversed());
+        for (Produto produto : listProdutos) {
+            logger.info("PRODUTO: {}",produto.getNome());
+            logger.info("QUANTIDADE: {}", produto.getQtdDeVendas());
+        }
+        return listProdutos;
+    }
     public PedidosEstatisticas getEstatisticasGerais(){
         String[] categoriasProcessadas = new String[10];
 
