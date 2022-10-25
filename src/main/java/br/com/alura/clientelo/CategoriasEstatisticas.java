@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class CategoriasEstatisticas {
+public class CategoriasEstatisticas{
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     private Set<String> getCategoriasFromPedidos(List<Pedido> pedidos) {
@@ -20,7 +20,7 @@ public class CategoriasEstatisticas {
         return categorias;
     }
 
-    public List<Categoria> montarCategoria(Set<String> categorias, List<Pedido> pedidos){
+    private List<Categoria> montarCategoria(Set<String> categorias, List<Pedido> pedidos){
         List<Categoria> listCategorias = new ArrayList<>();
         for (String categoria : categorias) {
             ArrayList<Pedido> pedidosDestaCategoria = new ArrayList<>();
@@ -68,9 +68,11 @@ public class CategoriasEstatisticas {
 
      public void logDetalhesCategorias(List<Categoria> categorias){
          if(categorias == null) return;
-         categorias.stream().forEach(c -> logger.info("CATEGORIA: {}",c.getNome()));
-         categorias.stream().forEach(c -> logger.info("QUANTIDADE: {}",c.getQtdDeVendas()));
-         categorias.stream().forEach(c -> logger.info("MONTANTE: {}",c.getMontanteDeVendas()));
+         for (Categoria c: categorias) {
+             logger.info("CATEGORIA: {}",c.getNome());
+             logger.info("QUANTIDADE: {}",c.getQtdDeVendas());
+             logger.info("MONTANTE: {}",c.getMontanteDeVendas());
+         }
      }
 
      public void logProdutoMaisCaroPorCategoria(String categoria, String produtoMaisCaro, BigDecimal precoProdutoMaisCaro){

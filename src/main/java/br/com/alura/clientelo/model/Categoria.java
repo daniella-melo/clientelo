@@ -2,9 +2,10 @@ package br.com.alura.clientelo.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Categoria {
+public class Categoria  {
 
     private String nome;
     private BigDecimal montanteDeVendas;

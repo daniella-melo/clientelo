@@ -41,12 +41,12 @@ public class PedidosEstatisticasTest {
 
     @Test
     void deveriaRetornarListaOrdenadaPorProdutoMaisVendido() {
-        List<Produto> listProdutos = pedidosEstatisticas.produtoMaisVendidos();
+        List<Produto> actualListProdutos = pedidosEstatisticas.produtoMaisVendidos();
 
-        for (int i = 0; i < listProdutos.size(); i++){
-            assertEquals(produtosVendidos.get(i).getNome(), listProdutos.get(i).getNome());
-            assertEquals(produtosVendidos.get(i).getQtdDeVendas(), listProdutos.get(i).getQtdDeVendas());
-            assertEquals(produtosVendidos.get(i).getCategoria(), listProdutos.get(i).getCategoria());
+        for (int i = 0; i < actualListProdutos.size(); i++){
+            assertEquals(produtosVendidos.get(i).getNome(), actualListProdutos.get(i).getNome());
+            assertEquals(produtosVendidos.get(i).getQtdDeVendas(), actualListProdutos.get(i).getQtdDeVendas());
+            assertEquals(produtosVendidos.get(i).getCategoria(), actualListProdutos.get(i).getCategoria());
         }
     }
 
