@@ -41,7 +41,7 @@ public class Main {
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-        //relatorios.produtoMaisCaroPorCategoria(mapPedidosPorCategoria);
+        List<Produto> produtosMaisCaros = categoriasEstatisticas.produtoMaisCaroPorCategoria(detalhesCategoria);
         logger.info("-------------------");
     }
 }

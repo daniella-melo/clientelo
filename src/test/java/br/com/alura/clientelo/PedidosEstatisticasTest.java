@@ -29,7 +29,7 @@ public class PedidosEstatisticasTest {
 
         produtosVendidos = new ArrayList<>();
         produtosVendidos.add(new Produto("Clean Code", "LIVROS", 6, new BigDecimal(70)));
-        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", 3, BigDecimal(1000)));
+        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", 3, new BigDecimal(1000)));
         produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA", 2,  new BigDecimal(1000)));
 
     }

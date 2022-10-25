@@ -24,12 +24,12 @@ public class Relatorios {
         for (String produto: produtos) {
             int quantidade = 0;
             String categoria = null;
-            Optional<BigDecimal> precoUnitario = Optional.of(BigDecimal.ZERO);
+            BigDecimal precoUnitario = BigDecimal.ZERO;
 
             quantidade = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
             categoria = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
             precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
-                    .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst();
+                    .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst().orElse(null);
 
             Produto newProduto = new Produto(produto, categoria, quantidade, precoUnitario);
             listProdutos.add(newProduto);

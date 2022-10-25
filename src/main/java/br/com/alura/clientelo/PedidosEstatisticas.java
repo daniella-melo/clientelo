@@ -51,18 +51,17 @@ public class PedidosEstatisticas {
         return listProdutos;
     }
 
-    private List<Produto> montarProdutos(Set<String> set){
+    private List<Produto> montarProdutos(Set<String> setProdutos){
         List<Produto> listProdutos = new ArrayList<>();
-        for (String produto: set) {
+        for (String produto: setProdutos) {
             int quantidade = 0;
             String categoria = null;
-            BigDecimal montante = BigDecimal.ZERO;
-            Optional<BigDecimal> precoUnitario = Optional.of(BigDecimal.ZERO);
+            BigDecimal precoUnitario = BigDecimal.ZERO;
 
             quantidade = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
             categoria = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
             precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
-                    .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst();
+                    .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst().orElse(null);
 
             Produto newProduto = new Produto(produto, categoria, quantidade, precoUnitario);
             listProdutos.add(newProduto);

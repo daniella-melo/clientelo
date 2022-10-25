@@ -20,46 +20,36 @@ public class CategoriasEstatisticas {
         return categorias;
     }
 
-    private HashMap<Categoria, ArrayList<Pedido>> montarCategorias(List<Pedido> pedidos) {
-        HashMap<Categoria, ArrayList<Pedido>> mapPedidosPorCategoria = new HashMap<>();
-        Set<String> categorias = getCategoriasFromPedidos(pedidos);
+    public List<Categoria> montarCategoria(Set<String> categorias, List<Pedido> pedidos){
         List<Categoria> listCategorias = new ArrayList<>();
-
-        if (categorias != null) {
+        for (String categoria : categorias) {
             ArrayList<Pedido> pedidosDestaCategoria = new ArrayList<>();
             int quantidade = 0;
             BigDecimal montante = BigDecimal.ZERO;
 
-            for (String categoria : categorias) {
-                pedidosDestaCategoria.addAll(pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).toList());
-                montante = pedidos.stream().filter(p -> p.getCategoria().equals(categoria))
-                        .map(p -> p.getValorTotal()).reduce(montante, BigDecimal::add);
-                quantidade = pedidos.stream().filter(p -> p.getCategoria().equals(categoria))
-                        .map(p -> p.getQuantidade()).reduce(quantidade, Integer::sum);
+            pedidosDestaCategoria.addAll(pedidos.stream().filter(p -> p.getCategoria().equals(categoria)).toList());
+            montante = pedidos.stream().filter(p -> p.getCategoria().equals(categoria))
+                    .map(p -> p.getValorTotal()).reduce(montante, BigDecimal::add);
+            quantidade = pedidos.stream().filter(p -> p.getCategoria().equals(categoria))
+                    .map(p -> p.getQuantidade()).reduce(quantidade, Integer::sum);
 
-                Categoria newCategoria = new Categoria(categoria, montante, quantidade);
-                newCategoria.getPedidos().addAll(pedidosDestaCategoria);
-                listCategorias.add(newCategoria);
-
-                mapPedidosPorCategoria.put(newCategoria, pedidosDestaCategoria);
-            }
+            Categoria newCategoria = new Categoria(categoria, montante, quantidade);
+            newCategoria.getPedidos().addAll(pedidosDestaCategoria);
+            listCategorias.add(newCategoria);
         }
-        return mapPedidosPorCategoria;
+        return  listCategorias;
     }
 
      public List<Categoria> vendasPorCategoria(List<Pedido> pedidos){
-         HashMap<Categoria, ArrayList<Pedido>> mapPedidosPorCategoria = montarCategorias(pedidos);
-         List<Categoria> categorias = new ArrayList<>();
-         for (Map.Entry<Categoria, ArrayList<Pedido>> pair : mapPedidosPorCategoria.entrySet()) {
-            categorias.add(pair.getKey());
-         }
-         logDetalhesCategorias(categorias);
-         return categorias;
+         Set<String> categorias = getCategoriasFromPedidos(pedidos);
+         List<Categoria> listCategorias = montarCategoria(categorias, pedidos);
+         logDetalhesCategorias(listCategorias);
+         return listCategorias;
      }
 
-     public List<Produto> produtoMaisCaroPorCategoria(HashMap<Categoria, ArrayList<Pedido>> map){
-         for (Map.Entry<Categoria, ArrayList<Pedido>> pair : map.entrySet()){
-             List<Pedido> pedidos = pair.getValue();
+     public List<Produto> produtoMaisCaroPorCategoria(List<Categoria> categorias){
+         for (Categoria c : categorias){
+             List<Pedido> pedidos = c.getPedidos();
              String[] produtosProcessados = new String[20];
              String produtoMaisCaro = null;
              BigDecimal precoProdutoMaisCaro = BigDecimal.ZERO;
@@ -71,7 +61,7 @@ public class CategoriasEstatisticas {
                      precoProdutoMaisCaro = precoAtual;
                  }
              }
-             logProdutoMaisCaroPorCategoria(pair.getKey().getNome(), produtoMaisCaro, precoProdutoMaisCaro);
+             logProdutoMaisCaroPorCategoria(c.getNome(), produtoMaisCaro, precoProdutoMaisCaro);
          }
          return null;
      }
