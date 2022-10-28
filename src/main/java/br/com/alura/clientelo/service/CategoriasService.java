@@ -1,5 +1,6 @@
-package br.com.alura.clientelo;
+package br.com.alura.clientelo.service;
 
+import br.com.alura.clientelo.Main;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class CategoriasEstatisticas{
+public class CategoriasService {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     private Set<String> getCategoriasFromPedidos(List<Pedido> pedidos) {
@@ -50,7 +51,6 @@ public class CategoriasEstatisticas{
      public List<Produto> produtoMaisCaroPorCategoria(List<Categoria> categorias){
          for (Categoria c : categorias){
              List<Pedido> pedidos = c.getPedidos();
-             String[] produtosProcessados = new String[20];
              String produtoMaisCaro = null;
              BigDecimal precoProdutoMaisCaro = BigDecimal.ZERO;
 
@@ -80,4 +80,5 @@ public class CategoriasEstatisticas{
          logger.info("PRODUTO: {}",produtoMaisCaro);
          logger.info("PRECO (1 unidade): {}",precoProdutoMaisCaro);
      }
+
 }

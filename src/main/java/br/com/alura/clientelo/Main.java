@@ -3,6 +3,9 @@ package br.com.alura.clientelo;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.processor.ProcessadorDeCsv;
+import br.com.alura.clientelo.service.CategoriasService;
+import br.com.alura.clientelo.service.PedidosService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,30 +21,30 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
         List<Pedido> pedidos = ProcessadorDeCsv.processaArquivo("pedidos.csv");
-        CategoriasEstatisticas categoriasEstatisticas = new CategoriasEstatisticas();
-        PedidosEstatisticas pedidosEstatisticas = new PedidosEstatisticas(pedidos);
-        pedidosEstatisticas = pedidosEstatisticas.getEstatisticasGerais();
+        CategoriasService categoriasService = new CategoriasService();
+        PedidosService pedidosService = new PedidosService(pedidos);
+        pedidosService = pedidosService.getEstatisticasGerais();
 
         logger.info("##### RELATÓRIO DE VALORES TOTAIS #####");
-        logger.info("TOTAL DE PEDIDOS REALIZADOS: {}", pedidosEstatisticas.getTotalDePedidosRealizados());
-        logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", pedidosEstatisticas.getTotalDeProdutosVendidos());
-        logger.info("TOTAL DE CATEGORIAS: {}", pedidosEstatisticas.getTotalDeCategorias());
-        logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
-        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosEstatisticas.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosEstatisticas.getPedidoMaisBarato().getProduto());
-        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosEstatisticas.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosEstatisticas.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosEstatisticas.getPedidoMaisCaro().getProduto());
+        logger.info("TOTAL DE PEDIDOS REALIZADOS: {}", pedidosService.getTotalDePedidosRealizados());
+        logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", pedidosService.getTotalDeProdutosVendidos());
+        logger.info("TOTAL DE CATEGORIAS: {}", pedidosService.getTotalDeCategorias());
+        logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
+        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisBarato().getProduto());
+        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisCaro().getProduto());
         logger.info("### FIM DO RELATÓRIO ###");
 
         //Gerar relatórios Semana 1
         logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-        List<Produto> produtoMaisVendidos = pedidosEstatisticas.produtoMaisVendidos();
+        List<Produto> produtoMaisVendidos = pedidosService.produtoMaisVendidos();
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-        List<Categoria> detalhesCategoria = categoriasEstatisticas.vendasPorCategoria(pedidos);
+        List<Categoria> detalhesCategoria = categoriasService.vendasPorCategoria(pedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-        List<Produto> produtosMaisCaros = categoriasEstatisticas.produtoMaisCaroPorCategoria(detalhesCategoria);
+        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria);
         logger.info("-------------------");
     }
 }

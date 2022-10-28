@@ -2,6 +2,7 @@ package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.service.CategoriasService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,14 +10,13 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CategoriasEstatisticasTest {
-    private CategoriasEstatisticas categoriasEstatisticas;
+public class CategoriasServiceTest {
+    private CategoriasService categoriasService;
     private static List<Pedido> pedidos;
     private static List<Categoria> categorias;
 
@@ -40,13 +40,13 @@ public class CategoriasEstatisticasTest {
 
     @BeforeEach
     void beforeEach() {
-        categoriasEstatisticas = new CategoriasEstatisticas();
+        categoriasService = new CategoriasService();
     }
 
 
     @Test
-    void deveriaRetonarListaDeCategoriasValida(){
-        List<Categoria> actuallistCategorias = categoriasEstatisticas.vendasPorCategoria(pedidos);
+    void deveriaRetonarListaDeCategoriasValidaDeVendasPorCategoria(){
+        List<Categoria> actuallistCategorias = categoriasService.vendasPorCategoria(pedidos);
         actuallistCategorias.sort(new Comparator<Categoria>() {
             @Override
             public int compare(Categoria c1, Categoria c2) {

@@ -2,6 +2,7 @@ package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.service.PedidosService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,13 +11,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PedidosEstatisticasTest {
+public class PedidosServiceTest {
 
-    private PedidosEstatisticas pedidosEstatisticas;
+    private PedidosService pedidosService;
     private static List<Pedido> pedidos;
     private static List<Produto> produtosVendidos;
     @BeforeAll
@@ -36,12 +36,12 @@ public class PedidosEstatisticasTest {
 
     @BeforeEach
     void beforeEach() {
-        pedidosEstatisticas = new PedidosEstatisticas(pedidos);
+        pedidosService = new PedidosService(pedidos);
     }
 
     @Test
     void deveriaRetornarListaOrdenadaPorProdutoMaisVendido() {
-        List<Produto> actualListProdutos = pedidosEstatisticas.produtoMaisVendidos();
+        List<Produto> actualListProdutos = pedidosService.produtoMaisVendidos();
 
         for (int i = 0; i < actualListProdutos.size(); i++){
             assertEquals(produtosVendidos.get(i).getNome(), actualListProdutos.get(i).getNome());
@@ -52,8 +52,8 @@ public class PedidosEstatisticasTest {
 
     @Test
     void metodoDeProdutosMaisVendidosDeveriaRetornarNullCasoListaDePedidosSejaNull(){
-        pedidosEstatisticas = new PedidosEstatisticas(null);
-        List<Produto> listProdutos = pedidosEstatisticas.produtoMaisVendidos();
+        pedidosService = new PedidosService(null);
+        List<Produto> listProdutos = pedidosService.produtoMaisVendidos();
         assertEquals(null, listProdutos);
     }
 }

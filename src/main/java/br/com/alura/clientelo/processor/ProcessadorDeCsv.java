@@ -1,4 +1,4 @@
-package br.com.alura.clientelo;
+package br.com.alura.clientelo.processor;
 
 import br.com.alura.clientelo.model.Pedido;
 

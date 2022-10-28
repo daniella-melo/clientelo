@@ -1,5 +1,6 @@
-package br.com.alura.clientelo;
+package br.com.alura.clientelo.service;
 
+import br.com.alura.clientelo.Main;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
@@ -9,8 +10,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class PedidosEstatisticas {
-    private CategoriasEstatisticas categoriasEstatisticas = new CategoriasEstatisticas();
+public class PedidosService {
+    private CategoriasService categoriasService = new CategoriasService();
     private List<Pedido> pedidos;
     private int totalDeProdutosVendidos;
     private int totalDePedidosRealizados;
@@ -21,7 +22,7 @@ public class PedidosEstatisticas {
     private int totalDeCategorias;
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public PedidosEstatisticas(List<Pedido> pedidos) {
+    public PedidosService(List<Pedido> pedidos) {
         this.pedidos = pedidos;
         this.totalDeProdutosVendidos = 0;
         this.totalDePedidosRealizados = 0;
@@ -68,7 +69,7 @@ public class PedidosEstatisticas {
         }
         return listProdutos;
     }
-    public PedidosEstatisticas getEstatisticasGerais(){
+    public PedidosService getEstatisticasGerais(){
         String[] categoriasProcessadas = new String[10];
 
         for (int i = 0; i < pedidos.size(); i++) {

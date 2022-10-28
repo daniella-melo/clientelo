@@ -2,6 +2,7 @@ package br.com.alura.clientelo.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Pedido{
 
@@ -17,6 +18,10 @@ public class Pedido{
     private BigDecimal valorTotal;
 
     public Pedido(String categoria, String produto, String cliente, BigDecimal preco, int quantidade, LocalDate data) {
+        if(categoria == null || produto == null || cliente == null
+                || preco == null || quantidade == 0 || data == null){
+            throw new NullPointerException();
+        }
         this.categoria = categoria;
         this.produto = produto;
         this.cliente = cliente;
@@ -61,6 +66,21 @@ public class Pedido{
                 ", quantidade=" + quantidade +
                 ", data=" + data +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido that = (Pedido) o;
+        return Objects.equals(categoria, that.getCategoria()) && Objects.equals(quantidade, that.getQuantidade()) &&
+                Objects.equals(preco, that.getPreco()) && Objects.equals(produto, that.getProduto()) &&
+                Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData()) &&
+                Objects.equals(valorTotal, that.getValorTotal());
+    }
+    @Override
+    public int hashCode() {
+        return this.produto.hashCode();
     }
 
 }
