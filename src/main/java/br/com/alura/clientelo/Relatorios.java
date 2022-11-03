@@ -31,7 +31,7 @@ public class Relatorios {
             precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
                     .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst().orElse(null);
 
-            Produto newProduto = new Produto(produto, categoria, quantidade, precoUnitario);
+            Produto newProduto = new Produto(produto, categoria, precoUnitario);
             listProdutos.add(newProduto);
         }
 

@@ -49,6 +49,7 @@ public class CategoriasService {
      }
 
      public List<Produto> produtoMaisCaroPorCategoria(List<Categoria> categorias){
+        List<Produto> listProdutos = new ArrayList<>();
          for (Categoria c : categorias){
              List<Pedido> pedidos = c.getPedidos();
              String produtoMaisCaro = null;
@@ -61,9 +62,12 @@ public class CategoriasService {
                      precoProdutoMaisCaro = precoAtual;
                  }
              }
+             Produto produtoMaisCaroDaCategoria = new Produto(produtoMaisCaro, c.getNome(),
+                     precoProdutoMaisCaro);
+             listProdutos.add(produtoMaisCaroDaCategoria);
              logProdutoMaisCaroPorCategoria(c.getNome(), produtoMaisCaro, precoProdutoMaisCaro);
          }
-         return null;
+         return listProdutos;
      }
 
      public void logDetalhesCategorias(List<Categoria> categorias){
