@@ -30,7 +30,19 @@ public class Pedido{
         this.valorTotal = this.preco.multiply(new BigDecimal(this.quantidade));
         this.data = data;
     }
+    public boolean isMaisBaratoQue(Pedido outroPedido) {
+        if(this.valorTotal.compareTo(outroPedido.getValorTotal())< 0) return true;
+        return false;
+    }
 
+    public boolean isMaisCaroQue(Pedido outroPedido) {
+        if(this.valorTotal.compareTo(outroPedido.getValorTotal()) > 0) return true;
+        return false;
+    }
+
+    public BigDecimal getValorTotal() {
+        return this.valorTotal;
+    }
     public String getCategoria() {
         return categoria;
     }
@@ -55,7 +67,6 @@ public class Pedido{
         return data;
     }
 
-    public BigDecimal getValorTotal(){return this.valorTotal; }
     @Override
     public String toString() {
         return "Pedido{" +
