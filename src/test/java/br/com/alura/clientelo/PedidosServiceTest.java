@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.PedidosService;
@@ -23,15 +24,14 @@ public class PedidosServiceTest {
     static void setup(){
         pedidos = new ArrayList<>();
         pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","CARLOS", new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(1000),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(2000),2, LocalDate.now()));
         pedidos.add(new Pedido("AUTOMOTIVA","Tapete de carro","BIA", new BigDecimal(400),2, LocalDate.now()));
         pedidos.add(new Pedido("LIVROS","Clean Code","BIA", new BigDecimal(70),6, LocalDate.now()));
 
         produtosVendidos = new ArrayList<>();
-        produtosVendidos.add(new Produto("Clean Code", "LIVROS", 6, new BigDecimal(70)));
-        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", 3, new BigDecimal(1000)));
-        produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA", 2,  new BigDecimal(1000)));
-
+        produtosVendidos.add(new Produto("Clean Code", "LIVROS", new BigDecimal(70)));
+        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", new BigDecimal(1000)));
+        produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA",   new BigDecimal(200)));
     }
 
     @BeforeEach
