@@ -1,6 +1,5 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.Main;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class Relatorios {
+public class RelatoriosOld {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public void produtoMaisVendidos(List<Pedido> pedidos){
