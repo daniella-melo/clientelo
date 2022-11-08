@@ -1,12 +1,20 @@
 package br.com.alura.clientelo.processor;
 
 import br.com.alura.clientelo.model.Pedido;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +24,7 @@ import java.util.Scanner;
 
 public class ProcessadorDeCsv {
 
-    public static List<Pedido> processaArquivo(String nomeDoArquivo) {
+    public static List<Pedido> processaArquivoCSV(String nomeDoArquivo) {
         try {
             URL recursoCSV = ClassLoader.getSystemResource(nomeDoArquivo);
             Path caminhoDoArquivo = caminhoDoArquivo = Path.of(recursoCSV.toURI());
@@ -56,4 +64,21 @@ public class ProcessadorDeCsv {
             throw new RuntimeException("Erro ao abrir Scanner para processar arquivo!");
         }
     }
+
+    public static List<Pedido> processaArquivoJSON(String nomeDoArquivo) throws JsonProcessingException {
+        try {
+            if(nomeDoArquivo==null) {
+                throw new NullPointerException("Nome de arquivo inválido");
+            }
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        TypeReference<List<PedidoDeserializer>> mapType = new TypeReference<>(){};
+        List<PedidoDeserializer> listPedidosDeserializer = objectMapper.readValue(new File("src/main/resources/"+nomeDoArquivo), mapType);
+        List<Pedido> listPedidos = new ArrayList<>();
+        return listPedidos;
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao processar arquivo!");
+        }
+    }
+
 }
