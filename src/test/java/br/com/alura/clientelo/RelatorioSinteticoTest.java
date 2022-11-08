@@ -2,6 +2,7 @@ package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.service.PedidosService;
+import br.com.alura.clientelo.util.RelatorioSintetico;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RelatorioSinteticoTest {
-    private ValoresGerais valoresGerais;
+    private RelatorioSintetico relatorioSintetico;
 
-    private ValoresGerais actualValoresGerais;
+    private RelatorioSintetico actualRelatorioSintetico;
     private PedidosService pedidosService;
     private static List<Pedido> pedidos;
 
@@ -39,38 +40,38 @@ public class RelatorioSinteticoTest {
     @BeforeEach
     void beforeEach() {
         pedidosService = new PedidosService(pedidos);
-        valoresGerais = new ValoresGerais();
-        actualValoresGerais = new ValoresGerais();
-        actualValoresGerais = valoresGerais.getAll(pedidos);
+        relatorioSintetico = new RelatorioSintetico();
+        actualRelatorioSintetico = new RelatorioSintetico();
+        actualRelatorioSintetico = relatorioSintetico.getAll(pedidos);
     }
     
     @Test
     void deveriaRetornarTotalDeProdutosVendidos(){
-        assertEquals(11, actualValoresGerais.getTotalDeProdutosVendidos());
+        assertEquals(11, actualRelatorioSintetico.getTotalDeProdutosVendidos());
     }
 
     @Test
     void deveriaRetornarTotalDePedidosRealizados(){
-        assertEquals(4, actualValoresGerais.getTotalDePedidosRealizados());
+        assertEquals(4, actualRelatorioSintetico.getTotalDePedidosRealizados());
     }
 
     @Test
     void deveriaRetornarMontanteDeVendas(){
-        assertEquals(new BigDecimal(4220), actualValoresGerais.getMontanteDeVendas());
+        assertEquals(new BigDecimal(4220), actualRelatorioSintetico.getMontanteDeVendas());
     }
 
     @Test
     void deveriaRetornarPedidoMaisBarato(){
-        assertTrue(pedidoMaisBarato.equals(actualValoresGerais.getPedidoMaisBarato()));
+        assertTrue(pedidoMaisBarato.equals(actualRelatorioSintetico.getPedidoMaisBarato()));
     }
 
     @Test
     void deveriaRetornarPedidoMaisCaro(){
-        assertTrue(pedidoMaisCaro.equals(actualValoresGerais.getPedidoMaisCaro()));
+        assertTrue(pedidoMaisCaro.equals(actualRelatorioSintetico.getPedidoMaisCaro()));
     }
 
     @Test
     void deveriaRetornarTotalDeCategorias(){
-        assertEquals(2, actualValoresGerais.getTotalDeCategorias());
+        assertEquals(2, actualRelatorioSintetico.getTotalDeCategorias());
     }
 }
