@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,12 +73,21 @@ public class ProcessadorDeCsv {
             }
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.registerModule(new JavaTimeModule());
+
+        URL recursoJson = ClassLoader.getSystemResource(nomeDoArquivo);
+        File file = new File(recursoJson.toURI());
         TypeReference<List<PedidoDeserializer>> mapType = new TypeReference<>(){};
-        List<PedidoDeserializer> listPedidosDeserializer = objectMapper.readValue(new File("src/main/resources/"+nomeDoArquivo), mapType);
+        List<PedidoDeserializer> listPedidosDeserializer = objectMapper.readValue(file, mapType);
         List<Pedido> listPedidos = new ArrayList<>();
+            for (PedidoDeserializer p: listPedidosDeserializer) {
+                listPedidos.add(p.toPedido());
+            }
         return listPedidos;
         } catch (IOException e) {
             throw new RuntimeException("Erro ao processar arquivo!");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 

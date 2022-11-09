@@ -20,7 +20,7 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
-        //List<Pedido> listPedidosFromJson = ProcessadorDeCsv.processaArquivoJSON("pedidos.json");
+        List<Pedido> listPedidosFromJson = ProcessadorDeCsv.processaArquivoJSON("pedidos.json");
         List<Pedido> pedidos = ProcessadorDeCsv.processaArquivoCSV("pedidos.csv");
         CategoriasService categoriasService = new CategoriasService();
         PedidosService pedidosService = new PedidosService(pedidos);

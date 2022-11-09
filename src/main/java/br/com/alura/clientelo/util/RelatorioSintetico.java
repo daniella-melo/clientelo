@@ -42,10 +42,7 @@ public class RelatorioSintetico {
                     jahProcessouCategoria = true;
                 }
             }
-<<<<<<< HEAD
-=======
 
->>>>>>> c41d12c000fcf638214bc0a11a56e7ef41ad8291
             if (!jahProcessouCategoria) {
                 categoriasProcessadas = addToCategoriasProcessadas(categoriasProcessadas, pedidoAtual);
             }

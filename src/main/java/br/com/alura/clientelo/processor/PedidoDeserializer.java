@@ -10,67 +10,60 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class PedidoDeserializer {
-        @JsonProperty("categoria")
-        private String categoria;
-        @JsonProperty("produto")
-        private String produto;
-        @JsonProperty("cliente")
-        private String cliente;
 
-        @JsonProperty("preco")
-        private BigDecimal preco;
-        @JsonProperty("quantidade")
-        private int quantidade;
+    private String categoria;
+    private String produto;
+    private String cliente;
+    private BigDecimal preco;
+    private int quantidade;
+    private LocalDate data;
 
-        @JsonProperty("data")
-        @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
-        private LocalDate data;
 
-        private BigDecimal valorTotal;
+    public PedidoDeserializer() {
+    }
 
-        public PedidoDeserializer() {
+    public PedidoDeserializer(@JsonProperty("categoria") String categoria, @JsonProperty("produto") String produto,
+            @JsonProperty("cliente") String cliente, @JsonProperty("preco") BigDecimal preco,
+            @JsonProperty("quantidade") int quantidade,
+            @JsonProperty("data") @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING) LocalDate data) {
+        if (categoria == null || produto == null || cliente == null
+                || preco == null || quantidade == 0 || data == null) {
+            throw new NullPointerException();
         }
+        this.categoria = categoria;
+        this.produto = produto;
+        this.cliente = cliente;
+        this.preco = preco;
+        this.quantidade = quantidade;
+        this.data = data;
+    }
 
-        @JsonCreator
-        public PedidoDeserializer(String categoria,String produto, String cliente,
-                      BigDecimal preco,int quantidade,LocalDate data) {
-            if(categoria == null || produto == null || cliente == null
-                    || preco == null || quantidade == 0 || data == null){
-                throw new NullPointerException();
-            }
-            this.categoria = categoria;
-            this.produto = produto;
-            this.cliente = cliente;
-            this.preco = preco;
-            this.quantidade = quantidade;
-            this.data = data;
-        }
 
-        public Pedido toPedido() {
-            return new Pedido(categoria,produto,cliente,preco,quantidade,data);
-        }
+    public Pedido toPedido() {
+        return new Pedido(categoria, produto, cliente, preco, quantidade, data);
+    }
 
-        public String getCategoria() {
-            return categoria;
-        }
+    public String getCategoria() {
+        return categoria;
+    }
 
-        public String getProduto() {
-            return produto;
-        }
+    public String getProduto() {
+        return produto;
+    }
 
-        public String getCliente() {
-            return cliente;
-        }
+    public String getCliente() {
+        return cliente;
+    }
 
-        public BigDecimal getPreco() {
-            return preco;
-        }
+    public BigDecimal getPreco() {
+        return preco;
+    }
 
-        public int getQuantidade() {
-            return quantidade;
-        }
+    public int getQuantidade() {
+        return quantidade;
+    }
 
-        public LocalDate getData() {
-            return data;
-        }
+    public LocalDate getData() {
+        return data;
+    }
 }
