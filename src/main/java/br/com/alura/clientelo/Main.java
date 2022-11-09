@@ -4,6 +4,7 @@ import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.processor.ProcessadorDeCsv;
+import br.com.alura.clientelo.processor.ProcessadorDeJson;
 import br.com.alura.clientelo.service.CategoriasService;
 import br.com.alura.clientelo.service.PedidosService;
 import org.slf4j.Logger;
@@ -20,8 +21,10 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
-        List<Pedido> listPedidosFromJson = ProcessadorDeCsv.processaArquivoJSON("pedidos.json");
-        List<Pedido> pedidos = ProcessadorDeCsv.processaArquivoCSV("pedidos.csv");
+        ProcessadorDeCsv processadorDeCsv = new ProcessadorDeCsv();
+        ProcessadorDeJson processadorDeJson= new ProcessadorDeJson();
+        List<Pedido> listPedidosFromJson = processadorDeJson.processaArquivo("pedidos.json");
+        List<Pedido> pedidos = processadorDeCsv.processaArquivo("pedidos.csv");
         CategoriasService categoriasService = new CategoriasService();
         PedidosService pedidosService = new PedidosService(pedidos);
         pedidosService = pedidosService.getEstatisticasGerais();

@@ -23,9 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class ProcessadorDeCsv {
+public class ProcessadorDeCsv implements ProcessadorArquivo{
 
-    public static List<Pedido> processaArquivoCSV(String nomeDoArquivo) {
+    @Override
+    public List<Pedido> processaArquivo(String nomeDoArquivo) {
         try {
             URL recursoCSV = ClassLoader.getSystemResource(nomeDoArquivo);
             Path caminhoDoArquivo = caminhoDoArquivo = Path.of(recursoCSV.toURI());
@@ -65,30 +66,4 @@ public class ProcessadorDeCsv {
             throw new RuntimeException("Erro ao abrir Scanner para processar arquivo!");
         }
     }
-
-    public static List<Pedido> processaArquivoJSON(String nomeDoArquivo) throws JsonProcessingException {
-        try {
-            if(nomeDoArquivo==null) {
-                throw new NullPointerException("Nome de arquivo inválido");
-            }
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModule(new JavaTimeModule());
-
-        URL recursoJson = ClassLoader.getSystemResource(nomeDoArquivo);
-        File file = new File(recursoJson.toURI());
-        TypeReference<List<PedidoDeserializer>> mapType = new TypeReference<>(){};
-        List<PedidoDeserializer> listPedidosDeserializer = objectMapper.readValue(file, mapType);
-        List<Pedido> listPedidos = new ArrayList<>();
-            for (PedidoDeserializer p: listPedidosDeserializer) {
-                listPedidos.add(p.toPedido());
-            }
-        return listPedidos;
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao processar arquivo!");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
