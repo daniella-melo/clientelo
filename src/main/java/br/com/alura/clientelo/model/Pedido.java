@@ -1,11 +1,17 @@
 package br.com.alura.clientelo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(name = "pedido")
 public class Pedido{
 
+    private Long id;
     private String categoria;
     private Cliente cliente;
     private LocalDate data;

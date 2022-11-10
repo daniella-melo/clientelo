@@ -9,7 +9,7 @@ public class Cliente {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "nome", nullable = false)
     private String nome;

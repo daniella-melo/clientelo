@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Produto {
+
+    private Long id;
     private String nome;
 
     private String categoria;
