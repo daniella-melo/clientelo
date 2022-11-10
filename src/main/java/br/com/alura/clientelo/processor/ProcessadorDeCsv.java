@@ -1,5 +1,7 @@
 package br.com.alura.clientelo.processor;
 
+import br.com.alura.clientelo.model.Cliente;
+import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,7 +54,11 @@ public class ProcessadorDeCsv implements ProcessadorArquivo{
                 LocalDate data = LocalDate.parse(registro[4], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 String cliente = registro[5];
 
-                Pedido pedido = new Pedido(categoria, produto, cliente, preco, quantidade, data);
+                Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                        "cidade fake", "estado fake");
+                Cliente newCliente = new Cliente(cliente, "11122233344", "999999999", endereco);
+
+                Pedido pedido = new Pedido(categoria, produto, newCliente, preco, quantidade, data);
                 pedidos[quantidadeDeRegistros] = pedido;
                 listPedidos.add(pedido);
                 quantidadeDeRegistros++;

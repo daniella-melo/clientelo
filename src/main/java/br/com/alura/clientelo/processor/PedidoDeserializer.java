@@ -1,5 +1,7 @@
 package br.com.alura.clientelo.processor;
 
+import br.com.alura.clientelo.model.Cliente;
+import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -43,7 +45,11 @@ public class PedidoDeserializer {
     public Pedido toPedido() {
         Produto newProduto = new Produto();
         newProduto.setNome(produto);
-        return new Pedido(categoria, newProduto, cliente, preco, quantidade, data);
+
+        Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                "cidade fake", "estado fake");
+        Cliente newCliente = new Cliente(cliente, "11122233344", "999999999", endereco);
+        return new Pedido(categoria, newProduto, newCliente, preco, quantidade, data);
     }
 
     public String getCategoria() {

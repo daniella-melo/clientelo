@@ -1,8 +1,6 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.model.Categoria;
-import br.com.alura.clientelo.model.Pedido;
-import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.service.CategoriasService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,39 +20,40 @@ public class CategoriasServiceTest {
     private CategoriasService categoriasService;
     private static List<Pedido> pedidos;
     private static List<Categoria> categorias;
-
     private static Produto produtoMaisCaroAutomotiva;
-
     private static Produto produtoMaisCaroLivros;
     @BeforeAll
     public static void setup(){
-        Produto jogoDePneu = new Produto();
-        jogoDePneu.setNome("Jogo de pneus");
 
-        Produto tapeteDeCarro = new Produto();
-        tapeteDeCarro.setNome("Tapete de carro");
+        //produtos
+        Produto jogoDePneu = new Produto("Jogo de pneus","conjunto de jogo de pneu","AUTOMOTIVA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP) );
+        Produto tapeteDeCarro = new Produto("Tapete de carro","descricao tapete de carro","AUTOMOTIVA", new BigDecimal(200) );
+        Produto cleanCode = new Produto("Clean Code", "livro clean code", "LIVROS" ,new BigDecimal(100).setScale(2, RoundingMode.HALF_UP));
 
-        Produto cleanCode = new Produto();
-        cleanCode.setNome("Clean Code");
+        //cliente
+        Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                "cidade fake", "estado fake");
+        Cliente bia = new Cliente("BIA", "11122233344", "999999999", endereco);
+        Cliente carlos = new Cliente("CARLOS", "11122233344", "999999999", endereco);
 
         //respeitando a ordem alfabetica ao inserir na lista de categorias
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,carlos, new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,bia, new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,bia, new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
 
-        produtoMaisCaroAutomotiva = new Produto("Jogo de pneus","AUTOMOTIVA" ,new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP));
+        produtoMaisCaroAutomotiva = jogoDePneu;
 
         categorias = new ArrayList<>();
         categorias.add(new Categoria("AUTOMOTIVA", new BigDecimal(3800).setScale(2, RoundingMode.HALF_UP), 5));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,carlos, new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,bia, new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",tapeteDeCarro,bia, new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
 
 
         categorias.add(new Categoria("LIVROS", new BigDecimal(600).setScale(2, RoundingMode.HALF_UP), 6));
-        categorias.get(1).getPedidos().add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(600).setScale(2, RoundingMode.HALF_UP),6, LocalDate.now()));
-        produtoMaisCaroLivros = new Produto("Clean Code","LIVROS" ,new BigDecimal(100).setScale(2, RoundingMode.HALF_UP));
+        categorias.get(1).getPedidos().add(new Pedido("LIVROS",cleanCode,bia, new BigDecimal(600).setScale(2, RoundingMode.HALF_UP),6, LocalDate.now()));
+        produtoMaisCaroLivros = cleanCode;
     }
 
     @BeforeEach

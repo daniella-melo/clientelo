@@ -14,7 +14,10 @@ public class Produto {
 
     private  BigDecimal precoUnitario;
 
-    public Produto(String nome, String categoria, BigDecimal precoUnitario) {
+    private int qntEmEstoque;
+
+    private String descricao;
+    public Produto(String nome, String descricao, String categoria, BigDecimal precoUnitario) {
         this.nome = nome;
         this.categoria = categoria;
         this.precoUnitario = precoUnitario;
@@ -37,6 +40,15 @@ public class Produto {
     public void adicionaVenda(int qntd){
         this.qtdDeVendas += qntd;
     }
+
+    public int getQntEmEstoque() {
+        return qntEmEstoque;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
 
     public void setPrecoUnitario(BigDecimal precoUnitario) {
         this.precoUnitario = precoUnitario;

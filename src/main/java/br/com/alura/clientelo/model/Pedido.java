@@ -8,7 +8,7 @@ public class Pedido{
 
     private String categoria;
     private Produto produto;
-    private String cliente;
+    private Cliente cliente;
 
     private BigDecimal preco;
     private int quantidade;
@@ -17,7 +17,7 @@ public class Pedido{
 
     private BigDecimal valorTotal;
 
-    public Pedido(String categoria, Produto produto, String cliente, BigDecimal preco, int quantidade, LocalDate data) {
+    public Pedido(String categoria, Produto produto, Cliente cliente, BigDecimal preco, int quantidade, LocalDate data) {
         if(categoria == null || produto == null || cliente == null
                 || preco == null || quantidade == 0 || data == null){
             throw new NullPointerException();
@@ -51,7 +51,7 @@ public class Pedido{
         return produto;
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 

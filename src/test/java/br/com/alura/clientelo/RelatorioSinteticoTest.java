@@ -1,5 +1,7 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.model.Cliente;
+import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.PedidosService;
@@ -37,11 +39,17 @@ public class RelatorioSinteticoTest {
         Produto cleanCode = new Produto();
         cleanCode.setNome("Clean Code");
 
+        //cliente
+        Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                "cidade fake", "estado fake");
+        Cliente bia = new Cliente("BIA", "11122233344", "999999999", endereco);
+        Cliente carlos = new Cliente("CARLOS", "11122233344", "999999999", endereco);
+
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400),2, LocalDate.now()));
-        pedidos.add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(70),6, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,carlos, new BigDecimal(1000),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,bia, new BigDecimal(1000),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,bia, new BigDecimal(400),2, LocalDate.now()));
+        pedidos.add(new Pedido("LIVROS",cleanCode,bia, new BigDecimal(70),6, LocalDate.now()));
 
         pedidoMaisBarato = pedidos.get(3);
         pedidoMaisCaro = pedidos.get(1);

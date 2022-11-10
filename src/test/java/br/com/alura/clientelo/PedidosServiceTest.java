@@ -1,8 +1,6 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.model.Categoria;
-import br.com.alura.clientelo.model.Pedido;
-import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.service.PedidosService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,20 +20,26 @@ public class PedidosServiceTest {
     private static List<Produto> produtosVendidos;
     @BeforeAll
     static void setup(){
-        Produto jogoDePneu = new Produto("Jogo de pneus", "AUTOMOTIVA", new BigDecimal(1000) );
+        //produtos
+        Produto jogoDePneu = new Produto("Jogo de pneus", "descricao jogo de pneus","AUTOMOTIVA", new BigDecimal(1000) );
         jogoDePneu.setQtdDeVendas(3);
-
-        Produto tapeteDeCarro = new Produto("Tapete de carro","AUTOMOTIVA", new BigDecimal(200) );
+        Produto tapeteDeCarro = new Produto("Tapete de carro","descricao tapete de carro","AUTOMOTIVA", new BigDecimal(200) );
         tapeteDeCarro.setQtdDeVendas(2);
-
-        Produto cleanCode = new Produto("Clean Code", "LIVROS", new BigDecimal(70));
+        Produto cleanCode = new Produto("Clean Code", "descricao clean code","LIVROS", new BigDecimal(70));
         cleanCode.setQtdDeVendas(6);
 
+        //cliente
+        Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                "cidade fake", "estado fake");
+        Cliente bia = new Cliente("BIA", "11122233344", "999999999", endereco);
+        Cliente carlos = new Cliente("CARLOS", "11122233344", "999999999", endereco);
+
+        //pedidos
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(2000),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400),2, LocalDate.now()));
-        pedidos.add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(70),6, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,carlos, new BigDecimal(1000),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,bia, new BigDecimal(2000),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,bia, new BigDecimal(400),2, LocalDate.now()));
+        pedidos.add(new Pedido("LIVROS",cleanCode,bia, new BigDecimal(70),6, LocalDate.now()));
 
         produtosVendidos = new ArrayList<>();
         produtosVendidos.add(cleanCode);
