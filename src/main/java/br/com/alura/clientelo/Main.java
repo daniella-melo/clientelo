@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.estatisticas.CategoriaEstatistica;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
@@ -44,11 +45,11 @@ public class Main {
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-        List<Categoria> detalhesCategoria = categoriasService.vendasPorCategoria(pedidos);
+        List<CategoriaEstatistica> detalhesCategoria = categoriasService.vendasPorCategoria(pedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria);
+        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria, pedidos);
         logger.info("-------------------");
     }
 }

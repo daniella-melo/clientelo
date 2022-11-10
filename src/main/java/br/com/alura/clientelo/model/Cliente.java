@@ -6,7 +6,7 @@ public class Cliente {
     private String telefone;
 
     private Endereco endereco;
-    
+
     public Cliente(String nome, String CPF, String telefone, Endereco endereco) {
         this.nome = nome;
         this.CPF = CPF;

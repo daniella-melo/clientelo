@@ -8,43 +8,30 @@ import java.util.Objects;
 
 public class Categoria  {
 
+    private int id;
     private String nome;
-    private BigDecimal montanteDeVendas;
-    private int qtdDeVendas;
-    private List<Pedido> pedidos;
 
-    private Pedido pedidoComProdutoMaisCaro;
+    private CategoriaStatusEnum status;
 
-    public Categoria(String nome, BigDecimal montanteDeVendas, int qtdDeVendas) {
+    public Categoria(String nome) {
         if(nome==null){
             throw new NullPointerException();
         }
         this.nome = nome;
-        this.montanteDeVendas = montanteDeVendas;
-        this.qtdDeVendas = qtdDeVendas;
-        this.pedidos = new ArrayList<>();
+        this.status = CategoriaStatusEnum.ATIVA ;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public BigDecimal getMontanteDeVendas() {
-        return montanteDeVendas;
+    public CategoriaStatusEnum getStatus() {
+        return status;
     }
-
-    public int getQtdDeVendas() {
-        return qtdDeVendas;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
     @Override
     public String toString(){
         return "CATEGORIA: " + nome + "\n" +
-                "QUANTIDADE: " + qtdDeVendas + "\n" + "MONTANTE: " + montanteDeVendas + "\n";
+                "QUANTIDADE: " + status;
     }
 
     @Override
@@ -52,9 +39,7 @@ public class Categoria  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Categoria that = (Categoria) o;
-        return Objects.equals(nome, that.getNome()) &&
-                Objects.equals(qtdDeVendas, that.getQtdDeVendas())
-                && Objects.equals(montanteDeVendas, that.getMontanteDeVendas());
+        return Objects.equals(nome, that.getNome());
     }
 
     @Override
