@@ -32,8 +32,8 @@ public class PedidosService {
         this.totalDeCategorias = 0;
     }
 
-    private Set<String> getProdutoFromPedidos(){
-        Set<String> produtos = new HashSet<>();
+    private Set<Produto> getProdutoFromPedidos(){
+        Set<Produto> produtos = new HashSet<>();
         for (Pedido pedido: this.pedidos) {
             if(pedido == null) break;
             produtos.add(pedido.getProduto());
@@ -43,7 +43,7 @@ public class PedidosService {
     public List<Produto> produtoMaisVendidos(){
         if(this.pedidos == null) return null;
         List<Produto> listProdutos = new ArrayList<>();
-        Set<String> produtos = getProdutoFromPedidos();
+        Set<Produto> produtos = getProdutoFromPedidos();
 
         listProdutos = montarProdutos(produtos);
 
@@ -52,9 +52,9 @@ public class PedidosService {
         return listProdutos;
     }
 
-    private List<Produto> montarProdutos(Set<String> setProdutos){
+    private List<Produto> montarProdutos(Set<Produto> setProdutos){
         List<Produto> listProdutos = new ArrayList<>();
-        for (String produto: setProdutos) {
+        for (Produto produto: setProdutos) {
             int quantidade = 0;
             String categoria = null;
             BigDecimal precoUnitario = BigDecimal.ZERO;
@@ -64,8 +64,11 @@ public class PedidosService {
             precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
                     .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst().orElse(null);
 
-            Produto newProduto = new Produto(produto, categoria, precoUnitario);
-            listProdutos.add(newProduto);
+            produto.setCategoria(categoria);
+            produto.setPrecoUnitario(precoUnitario);
+            produto.setQtdDeVendas(quantidade);
+
+            listProdutos.add(produto);
         }
         return listProdutos;
     }

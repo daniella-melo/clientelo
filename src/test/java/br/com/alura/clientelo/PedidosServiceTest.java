@@ -22,16 +22,26 @@ public class PedidosServiceTest {
     private static List<Produto> produtosVendidos;
     @BeforeAll
     static void setup(){
+        Produto jogoDePneu = new Produto("Jogo de pneus", "AUTOMOTIVA", new BigDecimal(1000) );
+        jogoDePneu.setQtdDeVendas(3);
+
+        Produto tapeteDeCarro = new Produto("Tapete de carro","AUTOMOTIVA", new BigDecimal(200) );
+        tapeteDeCarro.setQtdDeVendas(2);
+
+        Produto cleanCode = new Produto("Clean Code", "LIVROS", new BigDecimal(70));
+        cleanCode.setQtdDeVendas(6);
+
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","CARLOS", new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(2000),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Tapete de carro","BIA", new BigDecimal(400),2, LocalDate.now()));
-        pedidos.add(new Pedido("LIVROS","Clean Code","BIA", new BigDecimal(70),6, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(2000),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400),2, LocalDate.now()));
+        pedidos.add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(70),6, LocalDate.now()));
 
         produtosVendidos = new ArrayList<>();
-        produtosVendidos.add(new Produto("Clean Code", "LIVROS", new BigDecimal(70)));
-        produtosVendidos.add(new Produto("Jogo de pneus", "AUTOMOTIVA", new BigDecimal(1000)));
-        produtosVendidos.add(new Produto("Tapete de carro", "AUTOMOTIVA",   new BigDecimal(200)));
+        produtosVendidos.add(cleanCode);
+        produtosVendidos.add(jogoDePneu);
+        produtosVendidos.add(tapeteDeCarro);
+
     }
 
     @BeforeEach

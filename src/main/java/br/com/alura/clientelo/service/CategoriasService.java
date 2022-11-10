@@ -52,20 +52,18 @@ public class CategoriasService {
         List<Produto> listProdutos = new ArrayList<>();
          for (Categoria c : categorias){
              List<Pedido> pedidos = c.getPedidos();
-             String produtoMaisCaro = null;
-             BigDecimal precoProdutoMaisCaro = BigDecimal.ZERO;
+             Produto produtoMaisCaro = new Produto();
 
              for (Pedido pedidoAtual : pedidos){
                  BigDecimal precoAtual = pedidoAtual.getPreco().divide(new BigDecimal(pedidoAtual.getQuantidade()), 2, RoundingMode.HALF_UP);
-                 if (produtoMaisCaro == null || precoAtual.compareTo(precoProdutoMaisCaro) > 0 ) {
+                 if (produtoMaisCaro == null || produtoMaisCaro.getPrecoUnitario() == null ||precoAtual.compareTo(produtoMaisCaro.getPrecoUnitario()) > 0 ) {
                      produtoMaisCaro = pedidoAtual.getProduto();
-                     precoProdutoMaisCaro = precoAtual;
+                     produtoMaisCaro.setPrecoUnitario(precoAtual);;
                  }
              }
-             Produto produtoMaisCaroDaCategoria = new Produto(produtoMaisCaro, c.getNome(),
-                     precoProdutoMaisCaro);
-             listProdutos.add(produtoMaisCaroDaCategoria);
-             logProdutoMaisCaroPorCategoria(c.getNome(), produtoMaisCaro, precoProdutoMaisCaro);
+             produtoMaisCaro.setCategoria(c.getNome());
+             listProdutos.add(produtoMaisCaro);
+             logProdutoMaisCaroPorCategoria(c.getNome(), produtoMaisCaro.getNome(), produtoMaisCaro.getPrecoUnitario());
          }
          return listProdutos;
      }

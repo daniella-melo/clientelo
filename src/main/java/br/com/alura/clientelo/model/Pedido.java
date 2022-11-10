@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Pedido{
 
     private String categoria;
-    private String produto;
+    private Produto produto;
     private String cliente;
 
     private BigDecimal preco;
@@ -17,7 +17,7 @@ public class Pedido{
 
     private BigDecimal valorTotal;
 
-    public Pedido(String categoria, String produto, String cliente, BigDecimal preco, int quantidade, LocalDate data) {
+    public Pedido(String categoria, Produto produto, String cliente, BigDecimal preco, int quantidade, LocalDate data) {
         if(categoria == null || produto == null || cliente == null
                 || preco == null || quantidade == 0 || data == null){
             throw new NullPointerException();
@@ -47,7 +47,7 @@ public class Pedido{
         return categoria;
     }
 
-    public String getProduto() {
+    public Produto getProduto() {
         return produto;
     }
 
@@ -71,7 +71,7 @@ public class Pedido{
     public String toString() {
         return "Pedido{" +
                 "categoria='" + categoria + '\'' +
-                ", produto='" + produto + '\'' +
+                ", produto='" + produto.getNome() + '\'' +
                 ", cliente='" + cliente + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +

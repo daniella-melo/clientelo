@@ -28,23 +28,32 @@ public class CategoriasServiceTest {
     private static Produto produtoMaisCaroLivros;
     @BeforeAll
     public static void setup(){
+        Produto jogoDePneu = new Produto();
+        jogoDePneu.setNome("Jogo de pneus");
+
+        Produto tapeteDeCarro = new Produto();
+        tapeteDeCarro.setNome("Tapete de carro");
+
+        Produto cleanCode = new Produto();
+        cleanCode.setNome("Clean Code");
+
         //respeitando a ordem alfabetica ao inserir na lista de categorias
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Tapete de carro","BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
 
         produtoMaisCaroAutomotiva = new Produto("Jogo de pneus","AUTOMOTIVA" ,new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP));
 
         categorias = new ArrayList<>();
         categorias.add(new Categoria("AUTOMOTIVA", new BigDecimal(3800).setScale(2, RoundingMode.HALF_UP), 5));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA","Jogo de pneus","CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
-        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA","Tapete de carro","BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),1, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
+        categorias.get(0).getPedidos().add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400).setScale(2, RoundingMode.HALF_UP),2, LocalDate.now()));
 
 
         categorias.add(new Categoria("LIVROS", new BigDecimal(600).setScale(2, RoundingMode.HALF_UP), 6));
-        categorias.get(1).getPedidos().add(new Pedido("LIVROS","Clean Code","BIA", new BigDecimal(600).setScale(2, RoundingMode.HALF_UP),6, LocalDate.now()));
+        categorias.get(1).getPedidos().add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(600).setScale(2, RoundingMode.HALF_UP),6, LocalDate.now()));
         produtoMaisCaroLivros = new Produto("Clean Code","LIVROS" ,new BigDecimal(100).setScale(2, RoundingMode.HALF_UP));
     }
 

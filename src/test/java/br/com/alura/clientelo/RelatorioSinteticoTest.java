@@ -1,6 +1,7 @@
 package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.PedidosService;
 import br.com.alura.clientelo.util.RelatorioSintetico;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,11 +28,20 @@ public class RelatorioSinteticoTest {
 
     @BeforeAll
     static void setup(){
+        Produto jogoDePneu = new Produto();
+        jogoDePneu.setNome("Jogo de pneus");
+
+        Produto tapeteDeCarro = new Produto();
+        tapeteDeCarro.setNome("Tapete de carro");
+
+        Produto cleanCode = new Produto();
+        cleanCode.setNome("Clean Code");
+
         pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","CARLOS", new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Jogo de pneus","BIA", new BigDecimal(1000),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA","Tapete de carro","BIA", new BigDecimal(400),2, LocalDate.now()));
-        pedidos.add(new Pedido("LIVROS","Clean Code","BIA", new BigDecimal(70),6, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"CARLOS", new BigDecimal(1000),1, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,"BIA", new BigDecimal(1000),2, LocalDate.now()));
+        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,"BIA", new BigDecimal(400),2, LocalDate.now()));
+        pedidos.add(new Pedido("LIVROS",cleanCode,"BIA", new BigDecimal(70),6, LocalDate.now()));
 
         pedidoMaisBarato = pedidos.get(3);
         pedidoMaisCaro = pedidos.get(1);

@@ -1,6 +1,7 @@
 package br.com.alura.clientelo.processor;
 
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.model.Produto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -44,7 +45,8 @@ public class ProcessadorDeCsv implements ProcessadorArquivo{
                 String[] registro = linha.split(",");
 
                 String categoria = registro[0];
-                String produto = registro[1];
+                Produto produto = new Produto();
+                produto.setNome(registro[1]);
                 BigDecimal preco = new BigDecimal(registro[2]);
                 int quantidade = Integer.parseInt(registro[3]);
                 LocalDate data = LocalDate.parse(registro[4], DateTimeFormatter.ofPattern("dd/MM/yyyy"));

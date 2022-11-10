@@ -10,7 +10,7 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class RelatoriosOld {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+   /* private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public void produtoMaisVendidos(List<Pedido> pedidos){
         List<Produto> listProdutos = new ArrayList<>();
@@ -88,5 +88,5 @@ public class RelatoriosOld {
             logger.info("PRECO (1 unidade): {}",precoProdutoMaisCaro);
 
         }
-    }
+    }*/
 }

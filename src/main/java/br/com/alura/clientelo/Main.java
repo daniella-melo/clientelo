@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
         ProcessadorDeCsv processadorDeCsv = new ProcessadorDeCsv();
         ProcessadorDeJson processadorDeJson= new ProcessadorDeJson();
-        List<Pedido> listPedidosFromJson = processadorDeJson.processaArquivo("pedidos.json");
+        //List<Pedido> listPedidosFromJson = processadorDeJson.processaArquivo("pedidos.json");
         List<Pedido> pedidos = processadorDeCsv.processaArquivo("pedidos.csv");
         CategoriasService categoriasService = new CategoriasService();
         PedidosService pedidosService = new PedidosService(pedidos);
@@ -34,8 +34,8 @@ public class Main {
         logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", pedidosService.getTotalDeProdutosVendidos());
         logger.info("TOTAL DE CATEGORIAS: {}", pedidosService.getTotalDeCategorias());
         logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
-        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisBarato().getProduto());
-        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisCaro().getProduto());
+        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisBarato().getProduto().getNome());
+        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisCaro().getProduto().getNome());
         logger.info("### FIM DO RELATÓRIO ###");
 
         //Gerar relatórios Semana 1
