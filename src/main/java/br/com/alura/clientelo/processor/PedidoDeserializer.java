@@ -1,5 +1,6 @@
 package br.com.alura.clientelo.processor;
 
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -49,7 +51,10 @@ public class PedidoDeserializer {
         Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
                 "cidade fake", "estado fake");
         Cliente newCliente = new Cliente(cliente, "11122233344", "999999999", endereco);
-        return new Pedido(categoria, newProduto, newCliente, preco, quantidade, data);
+        Pedido pedido = new Pedido(categoria,  newCliente, data);
+        PedidoEstatistica pedidoEstatistica = new PedidoEstatistica(pedido,preco,
+                new Produto(produto, "descricao", categoria, preco.divide(new BigDecimal(quantidade)).setScale(2, RoundingMode.HALF_UP)), quantidade);
+        return pedido;
     }
 
     public String getCategoria() {

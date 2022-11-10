@@ -1,5 +1,6 @@
 package br.com.alura.clientelo.processor;
 
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
@@ -21,15 +22,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ProcessadorDeCsv implements ProcessadorArquivo{
 
     @Override
-    public List<Pedido> processaArquivo(String nomeDoArquivo) {
+    public Map<Pedido, PedidoEstatistica> processaArquivo(String nomeDoArquivo) {
         try {
             URL recursoCSV = ClassLoader.getSystemResource(nomeDoArquivo);
             Path caminhoDoArquivo = caminhoDoArquivo = Path.of(recursoCSV.toURI());
@@ -39,8 +37,8 @@ public class ProcessadorDeCsv implements ProcessadorArquivo{
             leitorDeLinhas.nextLine();
 
             Pedido[] pedidos = new Pedido[10];
-            List<Pedido> listPedidos = new ArrayList<>();
-
+            //List<Pedido> listPedidos = new ArrayList<>();
+            Map<Pedido, PedidoEstatistica> hashPedidos = new HashMap<>();
             int quantidadeDeRegistros = 0;
             while (leitorDeLinhas.hasNextLine()) {
                 String linha = leitorDeLinhas.nextLine();
@@ -58,16 +56,18 @@ public class ProcessadorDeCsv implements ProcessadorArquivo{
                         "cidade fake", "estado fake");
                 Cliente newCliente = new Cliente(cliente, "11122233344", "999999999", endereco);
 
-                Pedido pedido = new Pedido(categoria, produto, newCliente, preco, quantidade, data);
+                Pedido pedido = new Pedido(categoria, newCliente, data);
+                PedidoEstatistica pedidoEstatistica = new PedidoEstatistica(pedido, preco, produto, quantidade);
                 pedidos[quantidadeDeRegistros] = pedido;
-                listPedidos.add(pedido);
+                //listPedidos.add(pedido);
+                hashPedidos.put(pedido, pedidoEstatistica);
+
                 quantidadeDeRegistros++;
                 if (pedidos[pedidos.length - 1] != null) {
                     pedidos = Arrays.copyOf(pedidos, pedidos.length * 2);
                 }
             }
-
-            return listPedidos;
+            return hashPedidos;
         } catch (URISyntaxException e) {
             throw new RuntimeException(String.format("Arquivo {} não localizado!", nomeDoArquivo));
         } catch (IOException e) {

@@ -1,24 +1,26 @@
 package br.com.alura.clientelo.util;
 
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Pedido;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class RelatorioSintetico {
     private int totalDeProdutosVendidos= 0;
     private int totalDePedidosRealizados= 0;
     private BigDecimal montanteDeVendas = BigDecimal.ZERO;
-    private Pedido pedidoMaisBarato = null;
+    private PedidoEstatistica pedidoMaisBarato = null;
 
-    private Pedido pedidoMaisCaro = null;
+    private PedidoEstatistica pedidoMaisCaro = null;
     private int totalDeCategorias = 0;
-    public RelatorioSintetico getAll(List<Pedido> pedidos) {
+    public RelatorioSintetico getAll(Map<Pedido, PedidoEstatistica> mapPedidos) {
         String[] categoriasProcessadas = new String[10];
-
+        List<PedidoEstatistica> pedidos = mapPedidos.values().stream().toList();
         for (int i = 0; i < pedidos.size(); i++) {
-            Pedido pedidoAtual = pedidos.get(i);
+            PedidoEstatistica pedidoAtual = pedidos.get(i);
 
             if (pedidoAtual == null) {
                 break;
@@ -50,7 +52,7 @@ public class RelatorioSintetico {
         return this;
     }
 
-    private String[] addToCategoriasProcessadas(String[] categoriasProcessadas, Pedido pedidoAtual) {
+    private String[] addToCategoriasProcessadas(String[] categoriasProcessadas, PedidoEstatistica pedidoAtual) {
         this.totalDeCategorias++;
         String[] result = categoriasProcessadas;
 
@@ -59,7 +61,7 @@ public class RelatorioSintetico {
         } else {
             for (int k = 0; k < categoriasProcessadas.length; k++) {
                 if (categoriasProcessadas[k] == null) {
-                    result[k] = pedidoAtual.getCategoria();
+                    result[k] = pedidoAtual.getPedido().getCategoria();
                     break;
                 }
             }
@@ -71,19 +73,19 @@ public class RelatorioSintetico {
         return Arrays.copyOf(categoriasProcessadas, categoriasProcessadas.length * 2);
     }
 
-    private static boolean categoriaJaProcessada(Pedido pedidoAtual, String categoriasProcessadas) {
-        return pedidoAtual.getCategoria().equalsIgnoreCase(categoriasProcessadas);
+    private static boolean categoriaJaProcessada(PedidoEstatistica pedidoAtual, String categoriasProcessadas) {
+        return pedidoAtual.getPedido().getCategoria().equalsIgnoreCase(categoriasProcessadas);
     }
 
-    private BigDecimal addToMontanteDeVendas(Pedido pedidoAtual) {
+    private BigDecimal addToMontanteDeVendas(PedidoEstatistica pedidoAtual) {
         return this.montanteDeVendas.add(pedidoAtual.getPreco().multiply(new BigDecimal(pedidoAtual.getQuantidade())));
     }
 
-    private boolean isPedidoMaisCaro(Pedido pedidoAtual) {
+    private boolean isPedidoMaisCaro(PedidoEstatistica pedidoAtual) {
         return this.pedidoMaisCaro == null || pedidoAtual.getPreco().multiply(new BigDecimal(pedidoAtual.getQuantidade())).compareTo(pedidoMaisCaro.getPreco().multiply(new BigDecimal(pedidoMaisCaro.getQuantidade()))) > 0;
     }
 
-    private boolean isPedidoMaisBarato(Pedido pedidoAtual) {
+    private boolean isPedidoMaisBarato(PedidoEstatistica pedidoAtual) {
         return this.pedidoMaisBarato == null || pedidoAtual.getPreco().multiply(new BigDecimal(pedidoAtual.getQuantidade())).compareTo(pedidoMaisBarato.getPreco().multiply(new BigDecimal(pedidoMaisBarato.getQuantidade()))) < 0;
     }
 
@@ -99,11 +101,11 @@ public class RelatorioSintetico {
         return montanteDeVendas;
     }
 
-    public Pedido getPedidoMaisBarato() {
+    public PedidoEstatistica getPedidoMaisBarato() {
         return pedidoMaisBarato;
     }
 
-    public Pedido getPedidoMaisCaro() {
+    public PedidoEstatistica getPedidoMaisCaro() {
         return pedidoMaisCaro;
     }
 

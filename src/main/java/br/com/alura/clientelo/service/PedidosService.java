@@ -1,6 +1,7 @@
 package br.com.alura.clientelo.service;
 
 import br.com.alura.clientelo.Main;
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
 import org.slf4j.Logger;
@@ -12,18 +13,18 @@ import java.util.*;
 
 public class PedidosService {
     private CategoriasService categoriasService = new CategoriasService();
-    private List<Pedido> pedidos;
+    private Map<Pedido, PedidoEstatistica> mapPedidos;
     private int totalDeProdutosVendidos;
     private int totalDePedidosRealizados;
     private BigDecimal montanteDeVendas;
-    private Pedido pedidoMaisBarato;
-    private Pedido pedidoMaisCaro;
+    private PedidoEstatistica pedidoMaisBarato;
+    private PedidoEstatistica pedidoMaisCaro;
 
     private int totalDeCategorias;
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public PedidosService(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public PedidosService(Map<Pedido, PedidoEstatistica> mapPedidos) {
+        this.mapPedidos = mapPedidos;
         this.totalDeProdutosVendidos = 0;
         this.totalDePedidosRealizados = 0;
         this.montanteDeVendas = BigDecimal.ZERO;
@@ -34,14 +35,15 @@ public class PedidosService {
 
     private Set<Produto> getProdutoFromPedidos(){
         Set<Produto> produtos = new HashSet<>();
-        for (Pedido pedido: this.pedidos) {
-            if(pedido == null) break;
-            produtos.add(pedido.getProduto());
+        List<PedidoEstatistica> pedidoEstatisticas =  this.mapPedidos.values().stream().toList();
+        for (PedidoEstatistica pe: pedidoEstatisticas) {
+            if(pe == null) break;
+            produtos.add(pe.getProduto());
         }
         return produtos;
     }
     public List<Produto> produtoMaisVendidos(){
-        if(this.pedidos == null) return null;
+        if(this.mapPedidos == null) return null;
         List<Produto> listProdutos = new ArrayList<>();
         Set<Produto> produtos = getProdutoFromPedidos();
 
@@ -54,14 +56,15 @@ public class PedidosService {
 
     private List<Produto> montarProdutos(Set<Produto> setProdutos){
         List<Produto> listProdutos = new ArrayList<>();
+        List<PedidoEstatistica> pedidoEstatisticas =  this.mapPedidos.values().stream().toList();
         for (Produto produto: setProdutos) {
             int quantidade = 0;
             String categoria = null;
             BigDecimal precoUnitario = BigDecimal.ZERO;
 
-            quantidade = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
-            categoria = this.pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getCategoria()).findFirst().get();
-            precoUnitario = pedidos.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
+            quantidade = pedidoEstatisticas.stream().filter(p -> p.getProduto().equals(produto)).map(p->p.getQuantidade()).reduce(quantidade, Integer::sum);
+            categoria = pedidoEstatisticas.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPedido().getCategoria()).findFirst().get();
+            precoUnitario = pedidoEstatisticas.stream().filter(p -> p.getProduto().equals(produto)).map(p -> p.getPreco()
                     .divide(new BigDecimal(p.getQuantidade()), 2, RoundingMode.HALF_UP)).findFirst().orElse(null);
 
             produto.setCategoria(categoria);
@@ -74,9 +77,10 @@ public class PedidosService {
     }
     public PedidosService getEstatisticasGerais(){
         String[] categoriasProcessadas = new String[10];
+        List<PedidoEstatistica> pedidoEstatisticas =  this.mapPedidos.values().stream().toList();
 
-        for (int i = 0; i < pedidos.size(); i++) {
-            Pedido pedidoAtual = pedidos.get(i);
+        for (int i = 0; i < pedidoEstatisticas.size(); i++) {
+            PedidoEstatistica pedidoAtual = pedidoEstatisticas.get(i);
 
             if (pedidoAtual == null) {
                 break;
@@ -96,7 +100,7 @@ public class PedidosService {
 
             boolean jahProcessouCategoria = false;
             for (int j = 0; j < categoriasProcessadas.length; j++) {
-                if (pedidoAtual.getCategoria().equalsIgnoreCase(categoriasProcessadas[j])) {
+                if (pedidoAtual.getPedido().getCategoria().equalsIgnoreCase(categoriasProcessadas[j])) {
                     jahProcessouCategoria = true;
                 }
             }
@@ -109,7 +113,7 @@ public class PedidosService {
                 } else {
                     for (int k = 0; k < categoriasProcessadas.length; k++) {
                         if (categoriasProcessadas[k] == null) {
-                            categoriasProcessadas[k] = pedidoAtual.getCategoria();
+                            categoriasProcessadas[k] = pedidoAtual.getPedido().getCategoria();
                             break;
                         }
                     }
@@ -135,10 +139,10 @@ public class PedidosService {
     public BigDecimal getMontanteDeVendas() {
         return montanteDeVendas;
     }
-    public Pedido getPedidoMaisBarato() {
+    public PedidoEstatistica getPedidoMaisBarato() {
         return pedidoMaisBarato;
     }
-    public Pedido getPedidoMaisCaro() {
+    public PedidoEstatistica getPedidoMaisCaro() {
         return pedidoMaisCaro;
     }
     public int getTotalDeCategorias() {return totalDeCategorias;}

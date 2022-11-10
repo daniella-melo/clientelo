@@ -1,5 +1,6 @@
 package br.com.alura.clientelo.processor;
 
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Pedido;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -12,10 +13,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProcessadorDeJson implements ProcessadorArquivo {
+    //TODO: ajeitar o método para retornar um map
     @Override
-    public List<Pedido> processaArquivo(String nomeDoArquivo){
+    public Map<Pedido, PedidoEstatistica> processaArquivo(String nomeDoArquivo){
         try {
             if (nomeDoArquivo == null) {
                 throw new NullPointerException("Nome de arquivo inválido");
@@ -33,7 +36,7 @@ public class ProcessadorDeJson implements ProcessadorArquivo {
             for (PedidoDeserializer p : listPedidosDeserializer) {
                 listPedidos.add(p.toPedido());
             }
-            return listPedidos;
+            return null;
         } catch (IOException e) {
             throw new RuntimeException("Erro ao processar arquivo!");
         } catch (URISyntaxException e) {

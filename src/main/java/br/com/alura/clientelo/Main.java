@@ -1,6 +1,7 @@
 package br.com.alura.clientelo;
 
 import br.com.alura.clientelo.estatisticas.CategoriaEstatistica;
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
@@ -25,9 +26,11 @@ public class Main {
         ProcessadorDeCsv processadorDeCsv = new ProcessadorDeCsv();
         ProcessadorDeJson processadorDeJson= new ProcessadorDeJson();
         //List<Pedido> listPedidosFromJson = processadorDeJson.processaArquivo("pedidos.json");
-        List<Pedido> pedidos = processadorDeCsv.processaArquivo("pedidos.csv");
+        Map<Pedido, PedidoEstatistica> mapPedidos = processadorDeCsv.processaArquivo("pedidos.csv");
         CategoriasService categoriasService = new CategoriasService();
-        PedidosService pedidosService = new PedidosService(pedidos);
+
+        List<Pedido> pedidos = mapPedidos.keySet().stream().toList();
+        PedidosService pedidosService = new PedidosService(mapPedidos);
         pedidosService = pedidosService.getEstatisticasGerais();
 
         logger.info("##### RELATÓRIO DE VALORES TOTAIS #####");
@@ -45,11 +48,11 @@ public class Main {
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-        List<CategoriaEstatistica> detalhesCategoria = categoriasService.vendasPorCategoria(pedidos);
+        List<CategoriaEstatistica> detalhesCategoria = categoriasService.vendasPorCategoria(mapPedidos);
         logger.info("-------------------");
 
         logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria, pedidos);
+        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria, mapPedidos);
         logger.info("-------------------");
     }
 }

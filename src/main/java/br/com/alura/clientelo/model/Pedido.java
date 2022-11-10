@@ -7,60 +7,25 @@ import java.util.Objects;
 public class Pedido{
 
     private String categoria;
-    private Produto produto;
     private Cliente cliente;
-
-    private BigDecimal preco;
-    private int quantidade;
-
     private LocalDate data;
 
-    private BigDecimal valorTotal;
-
-    public Pedido(String categoria, Produto produto, Cliente cliente, BigDecimal preco, int quantidade, LocalDate data) {
-        if(categoria == null || produto == null || cliente == null
-                || preco == null || quantidade == 0 || data == null){
+    public Pedido(String categoria, Cliente cliente, LocalDate data) {
+        if(categoria == null || cliente == null
+                || data == null){
             throw new NullPointerException();
         }
         this.categoria = categoria;
-        this.produto = produto;
         this.cliente = cliente;
-        this.preco = preco;
-        this.quantidade = quantidade;
-        this.valorTotal = this.preco.multiply(new BigDecimal(this.quantidade));
         this.data = data;
     }
-    public boolean isMaisBaratoQue(Pedido outroPedido) {
-        if(this.valorTotal.compareTo(outroPedido.getValorTotal())< 0) return true;
-        return false;
-    }
 
-    public boolean isMaisCaroQue(Pedido outroPedido) {
-        if(this.valorTotal.compareTo(outroPedido.getValorTotal()) > 0) return true;
-        return false;
-    }
-
-    public BigDecimal getValorTotal() {
-        return this.valorTotal;
-    }
     public String getCategoria() {
         return categoria;
     }
 
-    public Produto getProduto() {
-        return produto;
-    }
-
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
     }
 
     public LocalDate getData() {
@@ -71,10 +36,7 @@ public class Pedido{
     public String toString() {
         return "Pedido{" +
                 "categoria='" + categoria + '\'' +
-                ", produto='" + produto.getNome() + '\'' +
                 ", cliente='" + cliente + '\'' +
-                ", preco=" + preco +
-                ", quantidade=" + quantidade +
                 ", data=" + data +
                 '}';
     }
@@ -84,14 +46,12 @@ public class Pedido{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pedido that = (Pedido) o;
-        return Objects.equals(categoria, that.getCategoria()) && Objects.equals(quantidade, that.getQuantidade()) &&
-                Objects.equals(preco, that.getPreco()) && Objects.equals(produto, that.getProduto()) &&
-                Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData()) &&
-                Objects.equals(valorTotal, that.getValorTotal());
+        return Objects.equals(categoria, that.getCategoria()) &&
+                Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData());
     }
     @Override
     public int hashCode() {
-        return this.produto.hashCode();
+        return this.categoria.hashCode();
     }
 
 }
