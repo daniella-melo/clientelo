@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.model.Endereco;
 import br.com.alura.clientelo.model.Pedido;
@@ -13,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,10 +26,9 @@ public class RelatorioSinteticoTest {
 
     private RelatorioSintetico actualRelatorioSintetico;
     private PedidosService pedidosService;
-    private static List<Pedido> pedidos;
-
-    private static Pedido pedidoMaisBarato;
-    private static Pedido pedidoMaisCaro;
+    private static Map<Pedido, PedidoEstatistica> mapPedidos;
+    private static PedidoEstatistica pedidoMaisBarato;
+    private static PedidoEstatistica pedidoMaisCaro;
 
     @BeforeAll
     static void setup(){
@@ -45,22 +47,34 @@ public class RelatorioSinteticoTest {
         Cliente bia = new Cliente("BIA", "11122233344", "999999999", endereco);
         Cliente carlos = new Cliente("CARLOS", "11122233344", "999999999", endereco);
 
-        pedidos = new ArrayList<>();
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,carlos, new BigDecimal(1000),1, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",jogoDePneu,bia, new BigDecimal(1000),2, LocalDate.now()));
-        pedidos.add(new Pedido("AUTOMOTIVA",tapeteDeCarro,bia, new BigDecimal(400),2, LocalDate.now()));
-        pedidos.add(new Pedido("LIVROS",cleanCode,bia, new BigDecimal(70),6, LocalDate.now()));
+        //pedidos
+        mapPedidos = new HashMap<>();
+        Pedido pedido1 = new Pedido("AUTOMOTIVA",carlos,LocalDate.now());
+        PedidoEstatistica pedidoEstatistica1 = new PedidoEstatistica(pedido1, new BigDecimal(1000), jogoDePneu,1);
+        mapPedidos.put(pedido1,pedidoEstatistica1);
 
-        pedidoMaisBarato = pedidos.get(3);
-        pedidoMaisCaro = pedidos.get(1);
+        Pedido pedido2 = new Pedido("AUTOMOTIVA",bia, LocalDate.now());
+        PedidoEstatistica pedidoEstatistica2 = new PedidoEstatistica(pedido2, new BigDecimal(1000), jogoDePneu,2);
+        mapPedidos.put(pedido2,pedidoEstatistica2);
+
+        Pedido pedido3 = new Pedido("AUTOMOTIVA",bia, LocalDate.now());
+        PedidoEstatistica pedidoEstatistica3 = new PedidoEstatistica(pedido3, new BigDecimal(400), tapeteDeCarro,2);
+        mapPedidos.put(pedido3,pedidoEstatistica3);
+
+        Pedido pedido4 = new Pedido("LIVROS",bia, LocalDate.now());
+        PedidoEstatistica pedidoEstatistica4 = new PedidoEstatistica(pedido4, new BigDecimal(70), cleanCode,6);
+        mapPedidos.put(pedido4,pedidoEstatistica4);
+
+        pedidoMaisBarato = pedidoEstatistica4;
+        pedidoMaisCaro = pedidoEstatistica2;
     }
 
     @BeforeEach
     void beforeEach() {
-        pedidosService = new PedidosService(pedidos);
+        pedidosService = new PedidosService(mapPedidos);
         relatorioSintetico = new RelatorioSintetico();
         actualRelatorioSintetico = new RelatorioSintetico();
-        actualRelatorioSintetico = relatorioSintetico.getAll(pedidos);
+        actualRelatorioSintetico = relatorioSintetico.getAll(mapPedidos);
     }
     
     @Test
@@ -80,12 +94,12 @@ public class RelatorioSinteticoTest {
 
     @Test
     void deveriaRetornarPedidoMaisBarato(){
-        assertTrue(pedidoMaisBarato.equals(actualRelatorioSintetico.getPedidoMaisBarato()));
+        assertTrue(pedidoMaisBarato.getPreco() == actualRelatorioSintetico.getPedidoMaisBarato().getPreco());
     }
 
     @Test
     void deveriaRetornarPedidoMaisCaro(){
-        assertTrue(pedidoMaisCaro.equals(actualRelatorioSintetico.getPedidoMaisCaro()));
+        assertTrue(pedidoMaisCaro.getPreco() == actualRelatorioSintetico.getPedidoMaisCaro().getPreco());
     }
 
     @Test

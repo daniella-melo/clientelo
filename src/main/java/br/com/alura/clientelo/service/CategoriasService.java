@@ -24,7 +24,7 @@ public class CategoriasService {
     }
 
     private List<CategoriaEstatistica> getEstatisticasPorCategoria(List<Categoria> categorias,Map<Pedido, PedidoEstatistica> mapPedidos){
-        int quantidade = 0;
+
         List<CategoriaEstatistica> estatisticasPorCategoria = new ArrayList<>();
         for (Categoria c: categorias) {
             if(estatisticasPorCategoria.size() != 0 && estatisticasPorCategoria.stream().filter(cat -> cat.getCategoria()
@@ -33,6 +33,7 @@ public class CategoriasService {
             }
             BigDecimal montante = BigDecimal.ZERO;
             CategoriaEstatistica estatistica = new CategoriaEstatistica(c);
+            int quantidade = 0;
 
             List<PedidoEstatistica> pedidoEstatisticas = mapPedidos.values().stream().filter(p -> p.getPedido().getCategoria().equals(c.getNome())).toList();
             estatistica.getPedidos().addAll(mapPedidos.keySet());
@@ -79,7 +80,7 @@ public class CategoriasService {
 
      private List<PedidoEstatistica> getPedidosFromCategoria(Categoria c, Map<Pedido, PedidoEstatistica> mapPedidos){
         List<PedidoEstatistica> pedidosDaCategoria = new ArrayList<>();
-        pedidosDaCategoria.addAll(mapPedidos.values().stream().filter(p -> p.getPedido().getCategoria() == c.getNome()).toList());
+        pedidosDaCategoria.addAll(mapPedidos.values().stream().filter(p -> p.getPedido().getCategoria().equals(c.getNome())).toList());
         return pedidosDaCategoria;
      }
 

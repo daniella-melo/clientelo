@@ -49,9 +49,6 @@ public class Pedido{
         return Objects.equals(categoria, that.getCategoria()) &&
                 Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData());
     }
-    @Override
-    public int hashCode() {
-        return this.categoria.hashCode();
-    }
+
 
 }
