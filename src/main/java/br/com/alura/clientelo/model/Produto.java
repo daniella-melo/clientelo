@@ -1,28 +1,37 @@
 package br.com.alura.clientelo.model;
 
+import jakarta.persistence.*;
+
 import javax.sound.sampled.Port;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+@Entity
+@Table(name = "produto")
 public class Produto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    private String categoria;
-
-    private int qtdDeVendas;
-
-    private  BigDecimal precoUnitario;
-
+    @Column(name = "descricao", nullable = false)
+    private String descricao;
+    @Column(name = "quantidade_estoque", nullable = false)
     private int qntEmEstoque;
 
-    private String descricao;
-    public Produto(String nome, String descricao, String categoria, BigDecimal precoUnitario) {
+    @Column(name = "categoria", nullable = false)
+    private Categoria categoria;
+
+    public Produto(String nome, String descricao, int qntEmEstoque, Categoria categoria) {
         this.nome = nome;
+        this.descricao = descricao;
+        this.qntEmEstoque = qntEmEstoque;
         this.categoria = categoria;
-        this.precoUnitario = precoUnitario;
     }
 
     public Produto(){}
@@ -30,17 +39,8 @@ public class Produto {
         return nome;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
-    }
-
-    public int getQtdDeVendas() {
-        return qtdDeVendas;
-    }
-    public BigDecimal getPrecoUnitario() { return precoUnitario;}
-
-    public void adicionaVenda(int qntd){
-        this.qtdDeVendas += qntd;
     }
 
     public int getQntEmEstoque() {
@@ -51,20 +51,8 @@ public class Produto {
         return descricao;
     }
 
-
-    public void setPrecoUnitario(BigDecimal precoUnitario) {
-        this.precoUnitario = precoUnitario;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setQtdDeVendas(int qtdDeVendas) {
-        this.qtdDeVendas = qtdDeVendas;
-    }
 }

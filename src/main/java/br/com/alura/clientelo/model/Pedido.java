@@ -1,33 +1,41 @@
 package br.com.alura.clientelo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pedido")
+@Table(name="pedido")
 public class Pedido{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
-    private String categoria;
-    private Cliente cliente;
+
+    @Column(name = "data", nullable = false)
     private LocalDate data;
 
-    public Pedido(String categoria, Cliente cliente, LocalDate data) {
-        if(categoria == null || cliente == null
-                || data == null){
+    @Column(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @Column(name = "desconto")
+    private String desconto;
+
+    @Column(name = "tipo_desconto", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoDescontoEnum tipoDesconto;
+
+    public Pedido(LocalDate data, Cliente cliente, String desconto, TipoDescontoEnum tipoDesconto)  {
+        if(cliente == null || data == null){
             throw new NullPointerException();
         }
-        this.categoria = categoria;
         this.cliente = cliente;
         this.data = data;
-    }
-
-    public String getCategoria() {
-        return categoria;
+        this.desconto = desconto;
+        this.tipoDesconto = tipoDesconto;
     }
 
     public Cliente getCliente() {
@@ -38,12 +46,21 @@ public class Pedido{
         return data;
     }
 
+    public String getDesconto() {
+        return desconto;
+    }
+
+    public TipoDescontoEnum getTipoDesconto() {
+        return tipoDesconto;
+    }
+
     @Override
     public String toString() {
         return "Pedido{" +
-                "categoria='" + categoria + '\'' +
-                ", cliente='" + cliente + '\'' +
+                "cliente='" + cliente + '\'' +
                 ", data=" + data +
+                ", desconto='" + desconto + '\'' +
+                ", tipo desconto='" + tipoDesconto + '\'' +
                 '}';
     }
 
@@ -52,9 +69,6 @@ public class Pedido{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pedido that = (Pedido) o;
-        return Objects.equals(categoria, that.getCategoria()) &&
-                Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData());
+        return Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData());
     }
-
-
 }
