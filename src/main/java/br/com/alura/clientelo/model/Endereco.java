@@ -30,6 +30,7 @@ public class Endereco {
         this.estado = estado;
     }
 
+    public Endereco() {}
     public String getRua() {
         return rua;
     }

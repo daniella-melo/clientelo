@@ -15,12 +15,12 @@ public class ClienteDao {
 
     public Cliente buscaPorId(Long id){
         return em.find(Cliente.class, id);
-    };
+    }
 
     public void cadastra(Cliente cliente){
         if(cliente==null) return;
         this.em.persist(cliente);
-    };
+    }
 
     public void atualiza(Cliente cliente){
         this.em.merge(cliente);
@@ -32,12 +32,12 @@ public class ClienteDao {
     }
 
     public List<Cliente> listaTodos(){
-        String jpql = "SELECT c FROM " + Cliente.class.getName()+" c";
+        String jpql = "SELECT c FROM " + Cliente.class.getName()+ " c";
         return em.createQuery(jpql, Cliente.class).getResultList();
-    };
+    }
 
     public Cliente listaPorNome(String nome){
-        String jpql = "SELECT c FROM " + Cliente.class.getName() + " WHERE c.nome = '" + nome +"'";
+        String jpql = "SELECT c FROM " + Cliente.class.getName() + " c WHERE c.nome = '" + nome +"'";
         return em.createQuery(jpql, Cliente.class).getSingleResult();
-    };
+    }
 }
