@@ -24,7 +24,7 @@ public class ProdutoDao {
     };
 
     public List<Produto> listaTodos(){
-        String jpql = "SELECT p FROM "+ Produto.class.getName();
+        String jpql = "SELECT p FROM "+ Produto.class.getName() + " p";
         return em.createQuery(jpql, Produto.class).getResultList();
     };
 

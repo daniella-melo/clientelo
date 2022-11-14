@@ -21,21 +21,18 @@ class CategoriaDaoTest {
     private static EntityManager em;
     private static CategoriaDao categoriaDao;
 
-    @BeforeAll
-    static void setup(){
+    @BeforeEach
+    void setupEach(){
+        JPAUtil jpaUtil = new JPAUtil();
+        em = jpaUtil.getEntityManager();
+        categoriaDao = new CategoriaDao(em);
+
         categoria1 = new Categoria("AUTOMOTIVA", CategoriaStatusEnum.ATIVA);
         categoria2 = new Categoria("LIVROS", CategoriaStatusEnum.ATIVA);
 
         todasAsCategorias = new ArrayList<>();
         todasAsCategorias.add(categoria1);
         todasAsCategorias.add(categoria2);
-    }
-
-    @BeforeEach
-    void setupEach(){
-        JPAUtil jpaUtil = new JPAUtil();
-        em = jpaUtil.getEntityManager();
-        categoriaDao = new CategoriaDao(em);
     }
 
     @Test
@@ -64,7 +61,7 @@ class CategoriaDaoTest {
     }
 
     @Test
-    void deverialistaTodasAsCategorias() {
+    void deveriaListarTodasAsCategorias() {
         List<Categoria> returnedListCategoria = new ArrayList<>();
         em.getTransaction().begin();
         categoriaDao.cadastra(categoria1);

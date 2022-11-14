@@ -23,10 +23,14 @@ public class ClienteDaoTest {
     private static ClienteDao clienteDao;
     private static EntityManager em;
 
-    @BeforeAll
-    static void setup(){
+    @BeforeEach
+    void setupEach(){
+        JPAUtil jpaUtil = new JPAUtil();
+        em = jpaUtil.getEntityManager();
+        clienteDao = new ClienteDao(em);
+
         Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
-           "cidade fake", "estado fake");
+                "cidade fake", "estado fake");
         //Cliente(String nome, String CPF, String telefone, Endereco endereco) {
         cliente1 = new Cliente("Cliente 1", "11111111111", "999999999", endereco);
         cliente2 = new Cliente("Cliente 2", "22222222222", "999999999", endereco);
@@ -34,13 +38,6 @@ public class ClienteDaoTest {
         todosOsClientes = new ArrayList<>();
         todosOsClientes.add(cliente1);
         todosOsClientes.add(cliente2);
-    }
-
-    @BeforeEach
-    void setupEach(){
-        JPAUtil jpaUtil = new JPAUtil();
-        em = jpaUtil.getEntityManager();
-        clienteDao = new ClienteDao(em);
     }
 
     @Test

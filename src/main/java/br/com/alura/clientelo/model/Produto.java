@@ -52,6 +52,10 @@ public class Produto {
         return descricao;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
