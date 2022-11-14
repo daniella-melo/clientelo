@@ -50,5 +50,4 @@ public class PedidoEstatistica {
     public Pedido getPedido() {
         return pedido;
     }
-
 }
