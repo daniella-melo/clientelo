@@ -24,13 +24,14 @@ public class Categoria  {
     @Enumerated(EnumType.STRING)
     private CategoriaStatusEnum status;
 
-    public Categoria(String nome) {
+    public Categoria(String nome,CategoriaStatusEnum status) {
         if(nome==null){
             throw new NullPointerException();
         }
         this.nome = nome;
         this.status = CategoriaStatusEnum.ATIVA ;
     }
+    public Categoria() {}
 
     public String getNome() {
         return nome;
@@ -39,6 +40,11 @@ public class Categoria  {
     public CategoriaStatusEnum getStatus() {
         return status;
     }
+
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString(){
         return "CATEGORIA: " + nome + "\n" +

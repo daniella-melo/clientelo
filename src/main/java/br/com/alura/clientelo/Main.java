@@ -5,10 +5,10 @@ import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
-import br.com.alura.clientelo.processor.ProcessadorDeCsv;
-import br.com.alura.clientelo.processor.ProcessadorDeJson;
-import br.com.alura.clientelo.service.CategoriasService;
-import br.com.alura.clientelo.service.PedidosService;
+//import br.com.alura.clientelo.processor.ProcessadorDeCsv;
+//import br.com.alura.clientelo.processor.ProcessadorDeJson;
+//import br.com.alura.clientelo.service.CategoriasService;
+//import br.com.alura.clientelo.service.PedidosService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

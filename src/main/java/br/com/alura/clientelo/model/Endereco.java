@@ -14,7 +14,7 @@ public class Endereco {
     @Column(name = "complemento", length = 20)
     private String complemento;
 
-    @Column(name = "cidade", nullable = false, length = 20)
+    @Column(name = "bairro", nullable = false, length = 20)
     private String bairro;
     @Column(name = "cidade", nullable = false, length = 20)
     private String cidade;

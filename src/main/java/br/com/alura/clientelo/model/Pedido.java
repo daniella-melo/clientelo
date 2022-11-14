@@ -18,7 +18,8 @@ public class Pedido{
     @Column(name = "data", nullable = false)
     private LocalDate data;
 
-    @Column(name = "cliente_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Column(name = "desconto")

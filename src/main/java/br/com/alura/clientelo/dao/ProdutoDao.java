@@ -29,7 +29,7 @@ public class ProdutoDao {
     };
 
     public List<Produto>  listaIndisponiveis(){
-        String jpql = "SELECT p FROM "+ Produto.class.getName() + " WHERE c.qntEmEstoque = 0" ;
+        String jpql = "SELECT p FROM "+ Produto.class.getName() + " p WHERE p.qntEmEstoque = 0" ;
         return em.createQuery(jpql, Produto.class).getResultList();
     };
 }

@@ -29,6 +29,8 @@ public class Cliente {
         this.telefone = telefone;
         this.endereco = endereco;
     }
+    public Cliente() {
+    }
 
     public String getNome() {
         return nome;

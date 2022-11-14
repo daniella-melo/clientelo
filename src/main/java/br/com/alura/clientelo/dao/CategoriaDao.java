@@ -24,7 +24,7 @@ public class CategoriaDao{
     }
 
     public List<Categoria> listaTodas(){
-        String jpql = "SELECT p FROM "+ Categoria.class.getName();
+        String jpql = "SELECT c FROM "+ Categoria.class.getName() +" c";
         return em.createQuery(jpql, Categoria.class).getResultList();
     }
 }

@@ -32,7 +32,7 @@ public class ClienteDao {
     }
 
     public List<Cliente> listaTodos(){
-        String jpql = "SELECT c FROM " + Cliente.class.getName();
+        String jpql = "SELECT c FROM " + Cliente.class.getName()+" c";
         return em.createQuery(jpql, Cliente.class).getResultList();
     };
 

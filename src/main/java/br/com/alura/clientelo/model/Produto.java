@@ -24,7 +24,8 @@ public class Produto {
     @Column(name = "quantidade_estoque", nullable = false)
     private int qntEmEstoque;
 
-    @Column(name = "categoria", nullable = false)
+    @JoinColumn(name = "categoria_id")
+    @ManyToOne
     private Categoria categoria;
 
     public Produto(String nome, String descricao, int qntEmEstoque, Categoria categoria) {
