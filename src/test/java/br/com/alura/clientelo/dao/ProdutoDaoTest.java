@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,9 @@ public class ProdutoDaoTest {
         categoriaDao.cadastra(categoria);
         em.getTransaction().commit();
 
-        produtoDisponivel = new Produto("Produto 1", null, 2, categoria);
-        produtoIndisponivel = new Produto("Produto 2", null, 0, categoria); //indisponivel
+        produtoDisponivel = new Produto("Produto 1", new BigDecimal(10) ,null, 2, categoria);
+        produtoIndisponivel = new Produto("Produto 2",new BigDecimal(10), "descricao produto indisponivel",
+                0, categoria);
 
         todosOsprodutos = new ArrayList<>();
         todosOsprodutos. add(produtoDisponivel);
