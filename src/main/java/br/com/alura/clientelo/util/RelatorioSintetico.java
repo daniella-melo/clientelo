@@ -40,9 +40,10 @@ public class RelatorioSintetico {
 
             boolean jahProcessouCategoria = false;
             for (int j = 0; j < categoriasProcessadas.length; j++) {
-                if (categoriaJaProcessada(pedidoAtual, categoriasProcessadas[j])) {
-                    jahProcessouCategoria = true;
-                }
+                //TODO: refatorar para atender à nova modelagem
+//                if (categoriaJaProcessada(pedidoAtual, categoriasProcessadas[j])) {
+//                    jahProcessouCategoria = true;
+//                }
             }
 
             if (!jahProcessouCategoria) {
@@ -52,30 +53,32 @@ public class RelatorioSintetico {
         return this;
     }
 
+    //TODO: refatorar para atender à nova modelagem
     private String[] addToCategoriasProcessadas(String[] categoriasProcessadas, PedidoEstatistica pedidoAtual) {
-        this.totalDeCategorias++;
-        String[] result = categoriasProcessadas;
-
-        if (categoriasProcessadas[categoriasProcessadas.length - 1] != null) {
-            result = getCopiaExpandidaArraydeCategoriasJaProcessadas(categoriasProcessadas);
-        } else {
-            for (int k = 0; k < categoriasProcessadas.length; k++) {
-                if (categoriasProcessadas[k] == null) {
-                    result[k] = pedidoAtual.getPedido().getCategoria();
-                    break;
-                }
-            }
-        }
-        return result;
+//        this.totalDeCategorias++;
+//        String[] result = categoriasProcessadas;
+//
+//        if (categoriasProcessadas[categoriasProcessadas.length - 1] != null) {
+//            result = getCopiaExpandidaArraydeCategoriasJaProcessadas(categoriasProcessadas);
+//        } else {
+//            for (int k = 0; k < categoriasProcessadas.length; k++) {
+//                if (categoriasProcessadas[k] == null) {
+//                    result[k] = pedidoAtual.getPedido().getCategoria();
+//                    break;
+//                }
+//            }
+//        }
+//        return result;
+        return null;
     }
 
     private static String[] getCopiaExpandidaArraydeCategoriasJaProcessadas(String[] categoriasProcessadas) {
         return Arrays.copyOf(categoriasProcessadas, categoriasProcessadas.length * 2);
     }
-
-    private static boolean categoriaJaProcessada(PedidoEstatistica pedidoAtual, String categoriasProcessadas) {
-        return pedidoAtual.getPedido().getCategoria().equalsIgnoreCase(categoriasProcessadas);
-    }
+    //TODO: refatorar para atender à nova modelagem
+//    private static boolean categoriaJaProcessada(PedidoEstatistica pedidoAtual, String categoriasProcessadas) {
+//        return pedidoAtual.getPedido().getCategoria().equalsIgnoreCase(categoriasProcessadas);
+//    }
 
     private BigDecimal addToMontanteDeVendas(PedidoEstatistica pedidoAtual) {
         return this.montanteDeVendas.add(pedidoAtual.getPreco().multiply(new BigDecimal(pedidoAtual.getQuantidade())));

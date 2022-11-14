@@ -16,6 +16,7 @@ import java.util.*;
 public class CategoriasService {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    //TODO: refatorar os método para atenderem à nova modelagem
     private Set<Categoria> getCategoriasFromPedidos(List<Pedido> pedidos) {
         if (pedidos == null) return null;
         Set<Categoria> setCategorias = new HashSet<>();
@@ -47,6 +48,7 @@ public class CategoriasService {
             estatisticasPorCategoria.add(estatistica);
         }
         return estatisticasPorCategoria;
+        return null;
     }
 
      public List<CategoriaEstatistica> vendasPorCategoria(Map<Pedido, PedidoEstatistica> mapPedidos){
