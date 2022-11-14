@@ -19,8 +19,12 @@ public class Produto {
     @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "preco_unitario", nullable = false, scale = 2)
+    private BigDecimal precoUnitario;
+
     @Column(name = "descricao")
     private String descricao;
+
     @Column(name = "quantidade_estoque", nullable = false)
     private int qntEmEstoque;
 
@@ -28,7 +32,8 @@ public class Produto {
     @ManyToOne
     private Categoria categoria;
 
-    public Produto(String nome, String descricao, int qntEmEstoque, Categoria categoria) {
+    public Produto(String nome, BigDecimal precoUnitario, String descricao, int qntEmEstoque, Categoria categoria) {
+        this.precoUnitario = precoUnitario;
         this.nome = nome;
         this.descricao = descricao;
         this.qntEmEstoque = qntEmEstoque;
@@ -54,6 +59,10 @@ public class Produto {
 
     public Long getId() {
         return id;
+    }
+
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
     }
 
     public void setNome(String nome) {
