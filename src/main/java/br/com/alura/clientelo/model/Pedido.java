@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,14 +24,18 @@ public class Pedido{
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @Column(name = "desconto")
-    private String desconto;
+    @OneToMany(mappedBy = "pedido")//indica que o relacionamento já esta mapeado pelo outro lado da relação
+    private List<ItemDePedido> listItemDePedido;
+
+    @Column(name = "desconto", nullable = false, scale = 2)
+    private BigDecimal desconto;
 
     @Column(name = "tipo_desconto", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoDescontoEnum tipoDesconto;
 
-    public Pedido(LocalDate data, Cliente cliente, String desconto, TipoDescontoEnum tipoDesconto)  {
+    public Pedido(LocalDate data, Cliente cliente, BigDecimal desconto,
+                  TipoDescontoEnum tipoDesconto)  {
         if(cliente == null || data == null){
             throw new NullPointerException();
         }
@@ -37,6 +43,19 @@ public class Pedido{
         this.data = data;
         this.desconto = desconto;
         this.tipoDesconto = tipoDesconto;
+        this.listItemDePedido = new ArrayList<>();
+    }
+
+    public void adicionarItem(ItemDePedido item){
+        item.setPedido(this);
+        this.listItemDePedido.add(item);
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public List<ItemDePedido> getListItemDePedido() {
+        return listItemDePedido;
     }
 
     public Cliente getCliente() {
@@ -47,7 +66,7 @@ public class Pedido{
         return data;
     }
 
-    public String getDesconto() {
+    public BigDecimal getDesconto() {
         return desconto;
     }
 
