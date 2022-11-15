@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.dao.PedidoDao;
 import br.com.alura.clientelo.estatisticas.CategoriaEstatistica;
 import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
 import br.com.alura.clientelo.model.Categoria;
@@ -9,6 +10,8 @@ import br.com.alura.clientelo.model.Produto;
 //import br.com.alura.clientelo.processor.ProcessadorDeJson;
 //import br.com.alura.clientelo.service.CategoriasService;
 //import br.com.alura.clientelo.service.PedidosService;
+import br.com.alura.clientelo.util.JPAUtil;
+import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,39 +26,9 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws IOException, URISyntaxException {
-//        ProcessadorDeCsv processadorDeCsv = new ProcessadorDeCsv();
-//        ProcessadorDeJson processadorDeJson= new ProcessadorDeJson();
-//        //List<Pedido> listPedidosFromJson = processadorDeJson.processaArquivo("pedidos.json");
-//        Map<Pedido, PedidoEstatistica> mapPedidos = processadorDeCsv.processaArquivo("pedidos.csv");
-//        CategoriasService categoriasService = new CategoriasService();
-//
-//        List<Pedido> pedidos = mapPedidos.keySet().stream().toList();
-//        PedidosService pedidosService = new PedidosService(mapPedidos);
-//        pedidosService = pedidosService.getEstatisticasGerais();
-//
-//        logger.info("##### RELATÓRIO DE VALORES TOTAIS #####");
-//        logger.info("TOTAL DE PEDIDOS REALIZADOS: {}", pedidosService.getTotalDePedidosRealizados());
-//        logger.info("TOTAL DE PRODUTOS VENDIDOS: {}", pedidosService.getTotalDeProdutosVendidos());
-//        logger.info("TOTAL DE CATEGORIAS: {}", pedidosService.getTotalDeCategorias());
-//        logger.info("MONTANTE DE VENDAS: {}", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getMontanteDeVendas().setScale(2, RoundingMode.HALF_DOWN)));
-//        logger.info("PEDIDO MAIS BARATO: {} ({})", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisBarato().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisBarato().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisBarato().getProduto().getNome());
-//        logger.info("PEDIDO MAIS CARO: {} ({})\n", NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(pedidosService.getPedidoMaisCaro().getPreco().multiply(new BigDecimal(pedidosService.getPedidoMaisCaro().getQuantidade())).setScale(2, RoundingMode.HALF_DOWN)), pedidosService.getPedidoMaisCaro().getProduto().getNome());
-//        logger.info("### FIM DO RELATÓRIO ###");
-//
-//        //Gerar relatórios Semana 1
-//        logger.info("##### RELATÓRIO DE PRODUTOS MAIS VENDIDOS #####");
-//        List<Produto> produtoMaisVendidos = pedidosService.produtoMaisVendidos();
-//        logger.info("-------------------");
-//
-//        logger.info("##### RELATÓRIO DE VENDAS POR CATEGORIA #####");
-//        List<CategoriaEstatistica> detalhesCategoria = categoriasService.vendasPorCategoria(mapPedidos);
-//        logger.info("-------------------");
-//
-//        logger.info("##### RELATÓRIO DE PRODUTO MAIS CAROS POR CATEGORIA #####");
-//        List<Produto> produtosMaisCaros = categoriasService.produtoMaisCaroPorCategoria(detalhesCategoria, mapPedidos);
-//        logger.info("-------------------");
+        JPAUtil jpaUtil = new JPAUtil();
+        PedidoDao pedidoDao = new PedidoDao(JPAUtil.getEntityManager());
 
-        // SEMANA 5
-
+        List<RelatorioVendasPorCategoria> relatorio1 = pedidoDao.vendasPorCategoria();
     }
 }

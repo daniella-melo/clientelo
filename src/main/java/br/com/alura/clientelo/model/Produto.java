@@ -29,7 +29,7 @@ public class Produto {
     private int qntEmEstoque;
 
     @JoinColumn(name = "categoria_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
 
     public Produto(String nome, BigDecimal precoUnitario, String descricao, int qntEmEstoque, Categoria categoria) {

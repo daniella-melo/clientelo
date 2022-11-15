@@ -19,25 +19,24 @@ public class ItemDePedido {
     @Column(name = "quantidade", nullable = false)
     private int quantidade;
 
-    @Column(name = "pedido_id", nullable = false)
-    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pedido pedido;
 
-    @Column(name = "produto_id", nullable = false)
-    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Produto produto;
 
     @Column(name = "desconto")
-    private String desconto;
+    private BigDecimal desconto;
 
     @Column(name = "tipo_desconto", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoDescontoEnum tipoDesconto;
 
-    public ItemDePedido(int quantidade, Pedido pedido, Produto produto, String desconto, TipoDescontoEnum tipoDesconto) {
+    public ItemDePedido(int quantidade, Produto produto, BigDecimal desconto, TipoDescontoEnum tipoDesconto) {
         this.precoUnitario = produto.getPrecoUnitario();
         this.quantidade = quantidade;
-        this.pedido = pedido;
         this.produto = produto;
         this.desconto = desconto;
         this.tipoDesconto = tipoDesconto;
@@ -63,7 +62,7 @@ public class ItemDePedido {
         return produto;
     }
 
-    public String getDesconto() {
+    public BigDecimal getDesconto() {
         return desconto;
     }
 

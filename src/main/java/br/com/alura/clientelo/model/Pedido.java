@@ -20,11 +20,11 @@ public class Pedido{
     @Column(name = "data", nullable = false)
     private LocalDate data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido")//indica que o relacionamento já esta mapeado pelo outro lado da relação
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemDePedido> listItemDePedido;
 
     @Column(name = "desconto", nullable = false, scale = 2)
@@ -34,13 +34,13 @@ public class Pedido{
     @Enumerated(EnumType.STRING)
     private TipoDescontoEnum tipoDesconto;
 
-    public Pedido(LocalDate data, Cliente cliente, BigDecimal desconto,
+    public Pedido(Cliente cliente, BigDecimal desconto,
                   TipoDescontoEnum tipoDesconto)  {
-        if(cliente == null || data == null){
+        if(cliente == null){
             throw new NullPointerException();
         }
         this.cliente = cliente;
-        this.data = data;
+        this.data = LocalDate.now();
         this.desconto = desconto;
         this.tipoDesconto = tipoDesconto;
         this.listItemDePedido = new ArrayList<>();
