@@ -1,6 +1,7 @@
 package br.com.alura.clientelo.dao;
 
 import br.com.alura.clientelo.model.Categoria;
+import br.com.alura.clientelo.model.ItemDePedido;
 import br.com.alura.clientelo.model.Produto;
 import jakarta.persistence.EntityManager;
 
@@ -28,8 +29,8 @@ public class ProdutoDao {
         return em.createQuery(jpql, Produto.class).getResultList();
     };
 
-    public List<Produto>  listaIndisponiveis(){
-        String jpql = "SELECT p FROM "+ Produto.class.getName() + " p WHERE p.qntEmEstoque = 0" ;
-        return em.createQuery(jpql, Produto.class).getResultList();
+    public List<Produto> listaIndisponiveis(){
+        String query = "SELECT p FROM "+ Produto.class.getName() + " p WHERE p.qntEmEstoque = 0" ;
+        return em.createQuery(query, Produto.class).getResultList();
     };
 }

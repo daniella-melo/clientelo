@@ -37,7 +37,7 @@ public class ClienteDao {
     }
 
     public Cliente listaPorNome(String nome){
-        String jpql = "SELECT c FROM " + Cliente.class.getName() + " c WHERE c.nome = '" + nome +"'";
-        return em.createQuery(jpql, Cliente.class).getSingleResult();
+        String query = "SELECT c FROM " + Cliente.class.getName() + " c WHERE c.nome = '" + nome +"'";
+        return em.createQuery(query, Cliente.class).getSingleResult();
     }
 }
