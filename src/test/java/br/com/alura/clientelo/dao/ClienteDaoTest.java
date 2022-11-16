@@ -1,14 +1,15 @@
 package br.com.alura.clientelo.dao;
 
-import br.com.alura.clientelo.model.Cliente;
-import br.com.alura.clientelo.model.Endereco;
+import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.util.JPAUtil;
+import br.com.alura.clientelo.vo.RelatorioClienteFiel;
 import jakarta.persistence.EntityManager;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +98,66 @@ public class ClienteDaoTest {
         em.close();
 
         assertEquals(returnedCliente.getNome(), cliente1.getNome());
+    }
+
+    @Test
+    void deveriaRetornarClientesFieis(){
+        Categoria automotiva = new Categoria("AUTOMOTIVA", CategoriaStatusEnum.ATIVA);
+        Categoria livros = new Categoria("LIVROS", CategoriaStatusEnum.ATIVA);
+
+        Produto produtoAutomotiva = new Produto("produto automotiva", new BigDecimal(10), null, 4, automotiva);
+        Produto produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
+
+        Pedido pedido1 = new Pedido(cliente1, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido1.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
+
+        Pedido pedido2 = new Pedido(cliente2,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido2.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
+
+        Pedido pedido3 = new Pedido(cliente2,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido3.adicionarItem(new ItemDePedido(1, produtoLivro, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
+
+        em.getTransaction().begin();
+        em.persist(automotiva);
+        em.persist(livros);
+        em.persist(cliente1);
+        em.persist(cliente2);
+        em.flush();
+
+        em.persist(produtoAutomotiva);
+        em.persist(produtoLivro);
+        em.flush();
+
+        em.persist(pedido1);
+        em.persist(pedido2);
+        em.persist(pedido3);
+        em.getTransaction().commit();
+
+
+        List<RelatorioClienteFiel> actualClientesFieis = new ArrayList<>();
+        actualClientesFieis.add(new RelatorioClienteFiel(cliente1.getNome(), new Long(1), new BigDecimal(20)));
+        actualClientesFieis.add(new RelatorioClienteFiel(cliente2.getNome(), new Long(2), new BigDecimal(30)));
+
+
+        List<RelatorioClienteFiel> returnedClientesFieis = clienteDao.clientesFieis();
+        assertEquals(returnedClientesFieis, actualClientesFieis);
+
+        em.getTransaction().begin();
+        em.remove(pedido1);
+        em.remove(pedido2);
+        em.remove(pedido3);
+
+        em.flush();
+
+        em.remove(produtoAutomotiva);
+        em.remove(produtoLivro);
+        em.flush();
+
+        em.remove(automotiva);
+        em.remove(livros);
+        em.remove(cliente1);
+        em.remove(cliente2);
+        em.getTransaction().commit();
+        em.close();
     }
 }

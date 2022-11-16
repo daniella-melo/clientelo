@@ -4,6 +4,7 @@ import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.util.JPAUtil;
 import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,17 +21,21 @@ class PedidoDaoTest {
 
     private EntityManager em;
     private PedidoDao pedidoDao;
-
+    private ProdutoDao produtoDao;
     private Cliente cliente;
 
     private List<RelatorioVendasPorCategoria> actualRelatorioVendasPorCategoria;
     private Produto produtoAutomotiva;
+    private Produto produtoLivro;
 
+    private Pedido pedido1;
+    private Pedido pedido2;
     @BeforeEach
     void setupEach(){
         JPAUtil jpaUtil = new JPAUtil();
         em = jpaUtil.getEntityManager();
         pedidoDao = new PedidoDao(em);
+        produtoDao = new ProdutoDao(em);
 
         automotiva = new Categoria("AUTOMOTIVA", CategoriaStatusEnum.ATIVA);
         livros = new Categoria("LIVROS", CategoriaStatusEnum.ATIVA);
@@ -40,13 +45,13 @@ class PedidoDaoTest {
         cliente = new Cliente("Cliente 1", "11111111111", "999999999", endereco);
 
         produtoAutomotiva = new Produto("produto 1 automotiva", new BigDecimal(10), null, 2, automotiva);
-        Produto produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
+        produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
 
-        Pedido pedido1 = new Pedido(cliente, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido1 = new Pedido(cliente, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
         pedido1.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
         pedido1.adicionarItem(new ItemDePedido(1, produtoLivro, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
-        Pedido pedido2 = new Pedido(cliente,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido2 = new Pedido(cliente,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
         pedido2.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
         em.getTransaction().begin();
@@ -68,6 +73,24 @@ class PedidoDaoTest {
         actualRelatorioVendasPorCategoria.add(new RelatorioVendasPorCategoria(livros.getNome(),new Long(1),  new BigDecimal(10) ));
     }
 
+    @AfterEach
+    void afterEach(){
+        em.getTransaction().begin();
+        em.remove(pedido1);
+        em.remove(pedido2);
+
+        em.flush();
+
+        em.remove(produtoAutomotiva);
+        em.remove(produtoLivro);
+        em.flush();
+
+        em.remove(automotiva);
+        em.remove(livros);
+        em.remove(cliente);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     @Test
     void deveriaCadastrar() {
@@ -81,8 +104,9 @@ class PedidoDaoTest {
 
     @Test
     void deveriaRetornarProdutosMaisVendidos(){
-        List<Produto> maisVendidos = pedidoDao.produtosMaisVendidos();
+        List<Produto> maisVendidos = produtoDao.produtosMaisVendidos();
         assertEquals(1, maisVendidos.size());
         assertEquals(maisVendidos.get(0), produtoAutomotiva);
     }
+
 }

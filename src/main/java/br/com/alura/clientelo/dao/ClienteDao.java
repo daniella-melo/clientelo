@@ -2,6 +2,9 @@ package br.com.alura.clientelo.dao;
 
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Cliente;
+import br.com.alura.clientelo.model.ItemDePedido;
+import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.vo.RelatorioClienteFiel;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
@@ -39,5 +42,16 @@ public class ClienteDao {
     public Cliente listaPorNome(String nome){
         String query = "SELECT c FROM " + Cliente.class.getName() + " c WHERE c.nome = '" + nome +"'";
         return em.createQuery(query, Cliente.class).getSingleResult();
+    }
+
+    public List<RelatorioClienteFiel> clientesFieis(){
+        String query = "SELECT new br.com.alura.clientelo.vo.RelatorioClienteFiel (" +
+                "c.nome, COUNT(p.id), " +
+                "SUM(ip.precoUnitario * ip.quantidade)) rc " +
+                "FROM " + Cliente.class.getName() + " c " +
+                "JOIN " + Pedido.class.getName() + " p on p.cliente = c " +
+                "JOIN " + ItemDePedido.class.getName() + " ip on ip.pedido = p " +
+                "GROUP BY c.nome";
+        return em.createQuery(query, RelatorioClienteFiel.class).getResultList();
     }
 }

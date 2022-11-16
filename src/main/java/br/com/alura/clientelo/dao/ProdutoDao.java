@@ -33,4 +33,11 @@ public class ProdutoDao {
         String query = "SELECT p FROM "+ Produto.class.getName() + " p WHERE p.qntEmEstoque = 0" ;
         return em.createQuery(query, Produto.class).getResultList();
     };
+
+    public List<Produto> produtosMaisVendidos(){
+        String query = "SELECT p FROM " + Produto.class.getName() + " p " +
+                "JOIN " + ItemDePedido.class.getName() + " ip on ip.produto = p " +
+                "GROUP BY p.id HAVING SUM(ip.quantidade) > 3";
+        return em.createQuery(query, Produto.class).getResultList();
+    }
 }
