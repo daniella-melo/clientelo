@@ -51,7 +51,7 @@ public class ClienteDao {
                 "FROM " + Cliente.class.getName() + " c " +
                 "JOIN " + Pedido.class.getName() + " p on p.cliente = c " +
                 "JOIN " + ItemDePedido.class.getName() + " ip on ip.pedido = p " +
-                "GROUP BY c.nome";
+                "GROUP BY c.nome ORDER BY COUNT(p.id) DESC";
         return em.createQuery(query, RelatorioClienteFiel.class).getResultList();
     }
 }

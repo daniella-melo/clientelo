@@ -135,8 +135,8 @@ public class ClienteDaoTest {
 
 
         List<RelatorioClienteFiel> actualClientesFieis = new ArrayList<>();
-        actualClientesFieis.add(new RelatorioClienteFiel(cliente1.getNome(), new Long(1), new BigDecimal(20)));
         actualClientesFieis.add(new RelatorioClienteFiel(cliente2.getNome(), new Long(2), new BigDecimal(30)));
+        actualClientesFieis.add(new RelatorioClienteFiel(cliente1.getNome(), new Long(1), new BigDecimal(20)));
 
 
         List<RelatorioClienteFiel> returnedClientesFieis = clienteDao.clientesFieis();
