@@ -54,4 +54,15 @@ public class ClienteDao {
                 "GROUP BY c.nome ORDER BY COUNT(p.id) DESC";
         return em.createQuery(query, RelatorioClienteFiel.class).getResultList();
     }
+
+    public List<RelatorioClienteFiel> clientesMaisLucrativos(){
+        String query = "SELECT new br.com.alura.clientelo.vo.RelatorioClienteFiel (" +
+                "c.nome, COUNT(p.id), " +
+                "SUM(ip.precoUnitario * ip.quantidade)) rc " +
+                "FROM " + Cliente.class.getName() + " c " +
+                "JOIN " + Pedido.class.getName() + " p on p.cliente = c " +
+                "JOIN " + ItemDePedido.class.getName() + " ip on ip.pedido = p " +
+                "GROUP BY c.nome ORDER BY SUM(ip.precoUnitario * ip.quantidade) DESC LIMIT 2";
+        return em.createQuery(query, RelatorioClienteFiel.class).getResultList();
+    }
 }
