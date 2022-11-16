@@ -24,12 +24,18 @@ public class PedidoDao {
     }
 
     public List<RelatorioVendasPorCategoria> vendasPorCategoria() {
-        String jpql = "SELECT new br.com.alura.clientelo.vo.RelatorioVendasPorCategoria(" +
+        String query = "SELECT new br.com.alura.clientelo.vo.RelatorioVendasPorCategoria(" +
                 "ip.produto.categoria.nome, SUM(ip.quantidade), " +
                 "SUM(ip.precoUnitario*ip.quantidade)) rp " +
                 "FROM " + ItemDePedido.class.getName() + " ip " +
                 "GROUP BY ip.produto.categoria.nome";
-       return em.createQuery(jpql, RelatorioVendasPorCategoria.class).getResultList();
+       return em.createQuery(query, RelatorioVendasPorCategoria.class).getResultList();
     }
 
+    public List<Produto> produtosMaisVendidos(){
+        String query = "SELECT p FROM " + Produto.class.getName() + " p " +
+                "JOIN " + ItemDePedido.class.getName() + " ip on ip.produto = p " +
+                "GROUP BY p.id HAVING SUM(ip.quantidade) > 3";
+        return em.createQuery(query, Produto.class).getResultList();
+    }
 }

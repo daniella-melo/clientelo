@@ -4,7 +4,6 @@ import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.util.JPAUtil;
 import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
 import jakarta.persistence.EntityManager;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,8 @@ class PedidoDaoTest {
 
     private Cliente cliente;
 
-    private List<RelatorioVendasPorCategoria> actualRelatorio;
+    private List<RelatorioVendasPorCategoria> actualRelatorioVendasPorCategoria;
+    private Produto produtoAutomotiva;
 
     @BeforeEach
     void setupEach(){
@@ -39,7 +39,7 @@ class PedidoDaoTest {
                 "cidade fake", "estado fake");
         cliente = new Cliente("Cliente 1", "11111111111", "999999999", endereco);
 
-        Produto produtoAutomotiva = new Produto("produto 1 automotiva", new BigDecimal(10), null, 2, automotiva);
+        produtoAutomotiva = new Produto("produto 1 automotiva", new BigDecimal(10), null, 2, automotiva);
         Produto produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
 
         Pedido pedido1 = new Pedido(cliente, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
@@ -47,7 +47,7 @@ class PedidoDaoTest {
         pedido1.adicionarItem(new ItemDePedido(1, produtoLivro, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
         Pedido pedido2 = new Pedido(cliente,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
-        pedido2.adicionarItem(new ItemDePedido(1, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
+        pedido2.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
         em.getTransaction().begin();
         em.persist(automotiva);
@@ -63,9 +63,9 @@ class PedidoDaoTest {
         em.persist(pedido2);
         em.getTransaction().commit();
 
-        actualRelatorio = new ArrayList<>();
-        actualRelatorio.add(new RelatorioVendasPorCategoria(automotiva.getNome(),new Long(3),  new BigDecimal(30) ));
-        actualRelatorio.add(new RelatorioVendasPorCategoria(livros.getNome(),new Long(1),  new BigDecimal(10) ));
+        actualRelatorioVendasPorCategoria = new ArrayList<>();
+        actualRelatorioVendasPorCategoria.add(new RelatorioVendasPorCategoria(automotiva.getNome(),new Long(4),  new BigDecimal(40) ));
+        actualRelatorioVendasPorCategoria.add(new RelatorioVendasPorCategoria(livros.getNome(),new Long(1),  new BigDecimal(10) ));
     }
 
 
@@ -76,6 +76,13 @@ class PedidoDaoTest {
     @Test
     void deveriaRetornarVendasPorCategoria() {
         List<RelatorioVendasPorCategoria> relatorio = pedidoDao.vendasPorCategoria();
-        assertEquals(relatorio, actualRelatorio);
+        assertEquals(relatorio, actualRelatorioVendasPorCategoria);
+    }
+
+    @Test
+    void deveriaRetornarProdutosMaisVendidos(){
+        List<Produto> maisVendidos = pedidoDao.produtosMaisVendidos();
+        assertEquals(1, maisVendidos.size());
+        assertEquals(maisVendidos.get(0), produtoAutomotiva);
     }
 }
