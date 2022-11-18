@@ -4,11 +4,11 @@ import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.CategoriaStatusEnum;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

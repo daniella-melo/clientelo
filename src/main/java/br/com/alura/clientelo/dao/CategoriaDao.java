@@ -1,9 +1,8 @@
 package br.com.alura.clientelo.dao;
 
 import br.com.alura.clientelo.model.Categoria;
-import br.com.alura.clientelo.model.Cliente;
-import jakarta.persistence.EntityManager;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class CategoriaDao{

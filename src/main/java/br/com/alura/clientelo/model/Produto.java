@@ -1,11 +1,7 @@
 package br.com.alura.clientelo.model;
 
-import jakarta.persistence.*;
-
-import javax.sound.sampled.Port;
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "produto")

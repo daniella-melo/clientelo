@@ -1,11 +1,6 @@
 package br.com.alura.clientelo.model;
 
-import jakarta.persistence.*;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity

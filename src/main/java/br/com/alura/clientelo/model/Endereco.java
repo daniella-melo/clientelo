@@ -1,7 +1,7 @@
 package br.com.alura.clientelo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class Endereco {

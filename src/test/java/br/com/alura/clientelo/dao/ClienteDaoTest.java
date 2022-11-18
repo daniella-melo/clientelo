@@ -3,12 +3,10 @@ package br.com.alura.clientelo.dao;
 import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.util.JPAUtil;
 import br.com.alura.clientelo.vo.RelatorioClienteFiel;
-import jakarta.persistence.EntityManager;
-import org.checkerframework.checker.units.qual.C;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

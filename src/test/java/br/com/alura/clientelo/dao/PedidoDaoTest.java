@@ -3,11 +3,11 @@ package br.com.alura.clientelo.dao;
 import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.util.JPAUtil;
 import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ class PedidoDaoTest {
 
     private Categoria automotiva;
     private Categoria livros;
-
     private EntityManager em;
     private PedidoDao pedidoDao;
     private ProdutoDao produtoDao;
