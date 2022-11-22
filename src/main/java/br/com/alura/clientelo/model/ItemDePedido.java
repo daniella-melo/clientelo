@@ -33,6 +33,9 @@ public class ItemDePedido {
     @Enumerated(EnumType.STRING)
     private TipoDescontoEnum tipoDesconto;
 
+    public ItemDePedido() {
+    }
+
     public ItemDePedido(int quantidade, Produto produto, BigDecimal desconto, TipoDescontoEnum tipoDesconto) {
         this.precoUnitario = produto.getPrecoUnitario();
         this.quantidade = quantidade;

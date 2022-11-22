@@ -1,6 +1,7 @@
 package br.com.alura.clientelo.service;
 
 import br.com.alura.clientelo.model.Cliente;
+import br.com.alura.clientelo.projecao.ClienteFielProjecao;
 import br.com.alura.clientelo.repository.ClienteRepository;
 import br.com.alura.clientelo.vo.RelatorioClienteFiel;
 import org.springframework.stereotype.Service;
@@ -39,11 +40,11 @@ public class ClienteService implements ServiceInterface<Long, Cliente>{
         return this.repository.findAll();
     }
 
-    public List<RelatorioClienteFiel> getClientesFieis(){
+    public List<ClienteFielProjecao> getClientesFieis(){
         return this.repository.findClientesFieis();
     }
 
-    public List<RelatorioClienteFiel> getClientesMaisLucrativos(){
+    public List<ClienteFielProjecao> getClientesMaisLucrativos(){
         return this.repository.findClientesMaisLucrativos();
     }
 }

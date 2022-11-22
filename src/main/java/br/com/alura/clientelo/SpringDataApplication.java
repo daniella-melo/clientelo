@@ -1,5 +1,6 @@
 package br.com.alura.clientelo;
 
+import br.com.alura.clientelo.projecao.ClienteFielProjecao;
 import br.com.alura.clientelo.repository.CategoriaRepository;
 import br.com.alura.clientelo.repository.ClienteRepository;
 import br.com.alura.clientelo.vo.RelatorioClienteFiel;
@@ -27,7 +28,7 @@ public class SpringDataApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<RelatorioClienteFiel> clientesFieis = clienteRepository.findClientesFieis();
-        List<RelatorioClienteFiel> clientesMaisLucrativos = clienteRepository.findClientesMaisLucrativos();
+        List<ClienteFielProjecao> clientesFieis = clienteRepository.findClientesFieis();
+        List<ClienteFielProjecao> clientesMaisLucrativos = clienteRepository.findClientesMaisLucrativos();
     }
 }

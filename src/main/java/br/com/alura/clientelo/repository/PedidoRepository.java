@@ -16,6 +16,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             "ip.produto.categoria.nome, SUM(ip.quantidade), " +
             "SUM(ip.precoUnitario*ip.quantidade)) rp " +
             "FROM ItemDePedido ip " +
-            "GROUP BY ip.produto.categoria.nome",nativeQuery = true)
+            "GROUP BY ip.produto.categoria.nome")
     List<RelatorioVendasPorCategoria> findVendasPorCategoria();
 }
