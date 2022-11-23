@@ -20,7 +20,7 @@ public class Pedido{
     private LocalDate data;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -32,6 +32,9 @@ public class Pedido{
     @Column(name = "tipo_desconto", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoDescontoEnum tipoDesconto;
+
+    public Pedido() {
+    }
 
     public Pedido(Cliente cliente, BigDecimal desconto,
                   TipoDescontoEnum tipoDesconto)  {

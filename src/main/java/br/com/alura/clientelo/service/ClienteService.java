@@ -4,6 +4,7 @@ import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.projecao.ClienteFielProjecao;
 import br.com.alura.clientelo.repository.ClienteRepository;
 import br.com.alura.clientelo.vo.RelatorioClienteFiel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,8 @@ import java.util.Optional;
 @Service
 public class ClienteService implements ServiceInterface<Long, Cliente>{
 
+    @Autowired
     private ClienteRepository repository;
-
-    public ClienteService(ClienteRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void cadastra(Cliente cliente) {

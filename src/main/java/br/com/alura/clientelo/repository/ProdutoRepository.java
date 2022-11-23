@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    @Query(value = "SELECT p FROM Produto p WHERE p.qntEmEstoque = 0")
+    @Query(value = "SELECT * FROM produto p WHERE p.quantidade_estoque = 0",  nativeQuery = true)
     List<Produto> findIndisponiveis();
 
-    @Query(value = "SELECT p FROM produto p JOIN item_pedido ip on ip.produto_id = p.id " +
+    @Query(value = "SELECT * FROM produto p JOIN item_pedido ip on ip.produto_id = p.id " +
             "GROUP BY p.id HAVING SUM(ip.quantidade) > 3", nativeQuery = true)
     List<Produto> findMaisVendidos();
 }

@@ -11,11 +11,8 @@ import java.util.Optional;
 @Service
 public class CategoriaService implements ServiceInterface<Long, Categoria>{
 
+    @Autowired
     private CategoriaRepository repository;
-
-    public CategoriaService(CategoriaRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void cadastra(Categoria categoria) {

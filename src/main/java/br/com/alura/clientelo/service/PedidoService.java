@@ -4,6 +4,7 @@ import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.repository.PedidoRepository;
 import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,8 @@ import java.util.Optional;
 @Service
 public class PedidoService implements ServiceInterface<Long, Pedido>{
 
+    @Autowired
     private PedidoRepository repository;
-
-    public PedidoService(PedidoRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void cadastra(Pedido pedido) {
@@ -41,6 +39,7 @@ public class PedidoService implements ServiceInterface<Long, Pedido>{
     }
 
     public List<RelatorioVendasPorCategoria> getVendasPorCategoria(){
-        return this.repository.findVendasPorCategoria();
+        //return this.repository.findVendasPorCategoria();
+        return null;
     }
 }

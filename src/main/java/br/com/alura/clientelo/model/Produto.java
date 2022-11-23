@@ -24,8 +24,8 @@ public class Produto {
     @Column(name = "quantidade_estoque", nullable = false)
     private int qntEmEstoque;
 
-    @JoinColumn(name = "categoria_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
     public Produto(String nome, BigDecimal precoUnitario, String descricao, int qntEmEstoque, Categoria categoria) {

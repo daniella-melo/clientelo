@@ -18,11 +18,11 @@ public class ItemDePedido {
     @Column(name = "quantidade", nullable = false)
     private int quantidade;
 
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "pedido_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Pedido pedido;
 
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Produto produto;
 
