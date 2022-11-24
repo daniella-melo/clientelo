@@ -35,4 +35,8 @@ public class CategoriaService implements ServiceInterface<Long, Categoria>{
     public List<Categoria> listaTodos() {
        return this.repository.findAll();
     }
+
+    public boolean categoriaValidaParaCadastro(String nome){
+        return (this.repository.findByNome(nome) != null && nome.length()>=2);
+    }
 }
