@@ -39,7 +39,6 @@ public class PedidoService implements ServiceInterface<Long, Pedido>{
     }
 
     public List<RelatorioVendasPorCategoria> getVendasPorCategoria(){
-        //return this.repository.findVendasPorCategoria();
-        return null;
+        return this.repository.findVendasPorCategoria();
     }
 }
