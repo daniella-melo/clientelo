@@ -23,6 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@SpringBootTest
 public class ClienteServiceTest {
 
     private static Cliente cliente1;

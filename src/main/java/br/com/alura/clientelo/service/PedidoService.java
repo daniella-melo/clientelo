@@ -2,6 +2,7 @@ package br.com.alura.clientelo.service;
 
 import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.model.Pedido;
+import br.com.alura.clientelo.projecao.VendaPorCategoriaProjecao;
 import br.com.alura.clientelo.repository.PedidoRepository;
 import br.com.alura.clientelo.vo.RelatorioVendasPorCategoria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class PedidoService implements ServiceInterface<Long, Pedido>{
         return this.repository.findAll();
     }
 
-    public List<RelatorioVendasPorCategoria> getVendasPorCategoria(){
+    public List<VendaPorCategoriaProjecao> getVendasPorCategoria(){
         return this.repository.findVendasPorCategoria();
     }
 }

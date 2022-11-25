@@ -18,7 +18,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     @Query(value = "SELECT c.nome, COUNT(p.id), " +
             "SUM(ip.preco_unitario * ip.quantidade) " +
-            "FROM cliente c" +
+            "FROM cliente c " +
             "JOIN pedido p on p.cliente_id = c.id " +
             "JOIN item_pedido ip on ip.pedido_id = p.id " +
             "GROUP BY c.nome ORDER BY COUNT(p.id) DESC", nativeQuery = true)
