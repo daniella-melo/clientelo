@@ -23,7 +23,7 @@ public class CategoriaController {
     private CategoriaService service;
 
     @PostMapping("/new")
-    public ResponseEntity<CategoriaDto> inserirNovaCategoria(@RequestBody CategoriaForm form,
+    public ResponseEntity<CategoriaDto> inserirNova(@RequestBody CategoriaForm form,
                                                              UriComponentsBuilder uriBuilder){
         if(!service.categoriaValidaParaCadastro(form.getNome())){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

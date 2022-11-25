@@ -8,12 +8,6 @@ public class CategoriaDto {
     private String nome;
     private CategoriaStatusEnum status;
 
-    public CategoriaDto(String nome, CategoriaStatusEnum status) {
-        this.nome = nome;
-        this.status = status;
-    }
-
-    public CategoriaDto() {}
 
     public CategoriaDto(Categoria categoria) {
         this.nome = categoria.getNome();

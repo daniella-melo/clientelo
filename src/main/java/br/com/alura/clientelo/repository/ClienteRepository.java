@@ -24,7 +24,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             "GROUP BY c.nome ORDER BY COUNT(p.id) DESC", nativeQuery = true)
     List<ClienteFielProjecao> findClientesFieis();
 
-
     @Query(value = "SELECT " +
             "c.nome, COUNT(p.id), " +
             "SUM(ip.preco_unitario * ip.quantidade) " +
@@ -33,4 +32,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             "JOIN item_pedido ip on ip.pedido_id = p.id " +
             "GROUP BY c.nome ORDER BY SUM(ip.preco_unitario * ip.quantidade) DESC LIMIT 2", nativeQuery = true)
     List<ClienteFielProjecao> findClientesMaisLucrativos();
+
+    @Query(value = "SELECT count(p.cliente_id) " +
+            "FROM pedido p " +
+            "WHERE p.cliente_id = :idCliente " +
+            "GROUP BY p.cliente_id", nativeQuery = true)
+    int findTotalDePedidos(Long idCliente);
 }

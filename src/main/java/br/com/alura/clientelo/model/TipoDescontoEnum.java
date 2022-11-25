@@ -1,5 +1,5 @@
 package br.com.alura.clientelo.model;
 
 public enum TipoDescontoEnum {
-    QUANTIDADE, PROMOCAO, NENHUM;
+    QUANTIDADE, PROMOCAO, NENHUM, FIDELIDADE;
 }
