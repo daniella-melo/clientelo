@@ -4,12 +4,17 @@ import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class ProdutoForm {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @NotNull
+    @Size(min = 2)
     private String nome;
     private BigDecimal preco;
     private String descricao;

@@ -10,13 +10,16 @@ import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
+import java.sql.SQLOutput;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -26,10 +29,14 @@ public class ProdutoController {
     private ProdutoService service;
 
     @PostMapping("/new")
-    public ResponseEntity<ProdutoDto> inserirNovo(@RequestBody ProdutoForm form,
-                                                           UriComponentsBuilder uriBuilder){
-        if(!form.valido()){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    public ResponseEntity<ProdutoDto> inserirNovo(@RequestBody @Valid ProdutoForm form,
+                                                  UriComponentsBuilder uriBuilder,
+                                                  BindingResult result){
+//        if(!form.valido()){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+        if(result.hasErrors()){
+            System.out.println("há erros");
         }
         Produto novo = form.converter();
         service.cadastra(novo);

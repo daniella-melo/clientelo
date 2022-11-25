@@ -7,17 +7,17 @@ import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.TipoDescontoEnum;
 import br.com.alura.clientelo.service.ClienteService;
 import br.com.alura.clientelo.service.PedidoService;
+import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoForm {
 
-    @Autowired
-    private ClienteService clienteService;
-
+    @NotNull
     private Long idCliente;
     private List<ProdutoQuantidadeDto> listProdutoQntd;
 
@@ -39,16 +39,16 @@ public class PedidoForm {
         return listProdutoQntd;
     }
 
-    public boolean valido() {
+    public boolean valido(ClienteService clienteService, ProdutoService produtoService) {
         for (ProdutoQuantidadeDto pq: listProdutoQntd) {
-            if(!pq.valido()) return false;
+            if(!pq.valido(produtoService)) return false;
         }
         return clienteService.getById(idCliente) != null;
     }
 
-    public Pedido converter() {
-        Cliente cliente = clienteService.getById(idCliente).get();
-        int qntPedidosDoCliente = clienteService.getTotalDePedidosDoCliente(cliente.getId());
+    public Pedido converter(ClienteService service, ProdutoService produtoService) {
+        Cliente cliente = service.getById(idCliente).get();
+        int qntPedidosDoCliente = service.getTotalDePedidosDoCliente(cliente.getId());
 
         Pedido novo;
         BigDecimal desconto = BigDecimal.ZERO;
@@ -60,7 +60,7 @@ public class PedidoForm {
         }
 
         for (ProdutoQuantidadeDto pq: listProdutoQntd) {
-            ItemDePedido item = pq.convertToItemPedido();
+            ItemDePedido item = pq.convertToItemPedido(produtoService);
             novo.adicionarItem(item);
         }
         return novo;

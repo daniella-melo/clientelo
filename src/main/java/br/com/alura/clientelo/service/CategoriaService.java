@@ -36,10 +36,6 @@ public class CategoriaService implements ServiceInterface<Long, Categoria>{
        return this.repository.findAll();
     }
 
-    public boolean categoriaValidaParaCadastro(String nome){
-        return (this.repository.findByNome(nome) == null && nome.length()>=2);
-    }
-
     public Optional<Categoria> getById(Long id) {
         return repository.findById(id);
     }
