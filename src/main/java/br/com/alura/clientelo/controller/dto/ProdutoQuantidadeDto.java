@@ -40,10 +40,6 @@ public class ProdutoQuantidadeDto {
     public ItemDePedido convertToItemPedido(ProdutoService service){
         Optional<Produto> recoverd = service.getById(idProduto);
         BigDecimal desconto = BigDecimal.ZERO;
-        if(quantidade>10){
-            desconto = new BigDecimal(0.1);
-            return new ItemDePedido(quantidade, recoverd.get(), desconto, TipoDescontoEnum.QUANTIDADE);
-        }
-        return new ItemDePedido(quantidade, recoverd.get(), desconto, TipoDescontoEnum.NENHUM);
+        return new ItemDePedido(quantidade, recoverd.get(), desconto, TipoDescontoEnum.QUANTIDADE);
     }
 }

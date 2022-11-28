@@ -142,13 +142,13 @@ public class ClienteDaoTest {
         produtoAutomotiva = new Produto("produto automotiva", new BigDecimal(10), null, 4, automotiva);
         produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
 
-        pedido1 = new Pedido(cliente1, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido1 = new Pedido(cliente1, TipoDescontoEnum.NENHUM);
         pedido1.adicionarItem(new ItemDePedido(6, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
-        pedido2 = new Pedido(cliente2,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido2 = new Pedido(cliente2,TipoDescontoEnum.NENHUM);
         pedido2.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
-        pedido3 = new Pedido(cliente2,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido3 = new Pedido(cliente2,TipoDescontoEnum.NENHUM);
         pedido3.adicionarItem(new ItemDePedido(1, produtoLivro, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
         em.getTransaction().begin();

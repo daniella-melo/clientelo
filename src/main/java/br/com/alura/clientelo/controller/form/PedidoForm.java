@@ -46,18 +46,10 @@ public class PedidoForm {
         return clienteService.getById(idCliente) != null;
     }
 
-    public Pedido converter(ClienteService service, ProdutoService produtoService) {
-        Cliente cliente = service.getById(idCliente).get();
-        int qntPedidosDoCliente = service.getTotalDePedidosDoCliente(cliente.getId());
-
-        Pedido novo;
-        BigDecimal desconto = BigDecimal.ZERO;
-        if(qntPedidosDoCliente > 5){
-            desconto = new BigDecimal(0.05);
-            novo = new Pedido(cliente, desconto, TipoDescontoEnum.FIDELIDADE);
-        }else{
-            novo = new Pedido(cliente, desconto, TipoDescontoEnum.NENHUM);
-        }
+    public Pedido converter(ClienteService clienteService, ProdutoService produtoService, PedidoService pedidoService) {
+        Cliente cliente = clienteService.getById(idCliente).get();
+        Pedido novo = new Pedido(cliente, TipoDescontoEnum.NENHUM);
+        pedidoService.aplicarDescontos(novo);
 
         for (ProdutoQuantidadeDto pq: listProdutoQntd) {
             ItemDePedido item = pq.convertToItemPedido(produtoService);

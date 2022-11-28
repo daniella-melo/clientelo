@@ -46,11 +46,11 @@ class PedidoDaoTest {
         produtoAutomotiva = new Produto("produto 1 automotiva", new BigDecimal(10), null, 2, automotiva);
         produtoLivro = new Produto("produto livro", new BigDecimal(10), null, 2, livros);
 
-        pedido1 = new Pedido(cliente, BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido1 = new Pedido(cliente, TipoDescontoEnum.NENHUM);
         pedido1.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
         pedido1.adicionarItem(new ItemDePedido(1, produtoLivro, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
-        pedido2 = new Pedido(cliente,BigDecimal.ZERO, TipoDescontoEnum.NENHUM);
+        pedido2 = new Pedido(cliente,TipoDescontoEnum.NENHUM);
         pedido2.adicionarItem(new ItemDePedido(2, produtoAutomotiva, BigDecimal.ZERO, TipoDescontoEnum.NENHUM));
 
         em.getTransaction().begin();

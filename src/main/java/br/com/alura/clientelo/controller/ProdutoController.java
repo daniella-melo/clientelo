@@ -32,11 +32,8 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDto> inserirNovo(@RequestBody @Valid ProdutoForm form,
                                                   UriComponentsBuilder uriBuilder,
                                                   BindingResult result){
-//        if(!form.valido()){
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
         if(result.hasErrors()){
-            System.out.println("há erros");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         Produto novo = form.converter();
         service.cadastra(novo);
