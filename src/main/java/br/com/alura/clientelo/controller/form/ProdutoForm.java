@@ -2,23 +2,26 @@ package br.com.alura.clientelo.controller.form;
 
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.CategoriaService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class ProdutoForm {
 
-    @Autowired
-    private CategoriaService categoriaService;
-
-    @NotNull
-    @Size(min = 2)
+    @Length(min = 2)
     private String nome;
+
+    @Positive
     private BigDecimal preco;
     private String descricao;
+
     private int qntdEmEstoque;
+
     private Long idCategoria;
 
     public ProdutoForm(String nome, BigDecimal preco, String descricao, int qntdEmEstoque, Long idCategoria) {
@@ -51,12 +54,8 @@ public class ProdutoForm {
         return idCategoria;
     }
 
-    public boolean valido(){
-        return (this.nome != null && this.nome.length() >= 2
-                && this.idCategoria != null && this.preco != BigDecimal.ZERO);
-    }
 
-    public Produto converter() {
+    public Produto converter(CategoriaService categoriaService) {
         return new Produto(nome, preco, descricao, qntdEmEstoque, categoriaService.getById(idCategoria).get());
     }
 }

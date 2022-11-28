@@ -48,8 +48,8 @@ public class SpringDataApplication implements CommandLineRunner {
 //        clienteService.cadastra(cliente1);
 //        clienteService.cadastra(cliente2);
 
-        List<ClienteFielProjecao> clientesFieis = clienteService.getClientesFieis();
-        List<ClienteFielProjecao> clientesMaisLucrativos = clienteService.getClientesMaisLucrativos();
-        List<VendaPorCategoriaProjecao> vendaPorCategoriaProjecao = pedidoService.getVendasPorCategoria();
+//        List<ClienteFielProjecao> clientesFieis = clienteService.getClientesFieis();
+//        List<ClienteFielProjecao> clientesMaisLucrativos = clienteService.getClientesMaisLucrativos();
+//        List<VendaPorCategoriaProjecao> vendaPorCategoriaProjecao = pedidoService.getVendasPorCategoria();
     }
 }

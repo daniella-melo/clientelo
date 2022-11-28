@@ -6,6 +6,7 @@ import br.com.alura.clientelo.controller.form.CategoriaForm;
 import br.com.alura.clientelo.controller.form.ProdutoForm;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.service.CategoriaService;
 import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,14 +29,17 @@ public class ProdutoController {
     @Autowired
     private ProdutoService service;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     @PostMapping("/new")
-    public ResponseEntity<ProdutoDto> inserirNovo(@Valid ProdutoForm form,
+    public ResponseEntity<ProdutoDto> inserirNovo(@RequestBody @Valid ProdutoForm form,
                                                   UriComponentsBuilder uriBuilder,
                                                   BindingResult result){
         if(result.hasErrors()){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-        Produto novo = form.converter();
+        Produto novo = form.converter(categoriaService);
         service.cadastra(novo);
 
         URI uri = uriBuilder.path("/api/produtos/new/{id}").buildAndExpand(novo.getId()).toUri();
