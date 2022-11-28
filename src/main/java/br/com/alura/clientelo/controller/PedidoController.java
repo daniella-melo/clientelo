@@ -42,7 +42,7 @@ public class PedidoController {
                                                  UriComponentsBuilder uriBuilder,
                                                  BindingResult result){
 
-        if(result.hasErrors() || !form.valido(clienteService,produtoService ){
+        if(result.hasErrors() || !form.valido(clienteService,produtoService)){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
