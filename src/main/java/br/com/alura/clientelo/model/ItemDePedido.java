@@ -42,6 +42,14 @@ public class ItemDePedido {
         this.produto = produto;
         this.desconto = desconto;
         this.tipoDesconto = tipoDesconto;
+        aplicarDesconto();
+    }
+
+    public void aplicarDesconto(){
+        if(this.quantidade>10){
+            this.desconto = new BigDecimal(0.1);
+            this.tipoDesconto = TipoDescontoEnum.QUANTIDADE;
+        }
     }
 
     public Long getId() {

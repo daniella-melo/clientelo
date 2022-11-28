@@ -36,15 +36,15 @@ public class Pedido{
     public Pedido() {
     }
 
-    public Pedido(Cliente cliente, BigDecimal desconto,
+    public Pedido(Cliente cliente,
                   TipoDescontoEnum tipoDesconto)  {
         if(cliente == null){
             throw new NullPointerException();
         }
         this.cliente = cliente;
         this.data = LocalDate.now();
-        this.desconto = desconto;
         this.tipoDesconto = tipoDesconto;
+        this.desconto = tipoDesconto.desconto();
         this.listItemDePedido = new ArrayList<>();
     }
 
@@ -92,5 +92,10 @@ public class Pedido{
         if (o == null || getClass() != o.getClass()) return false;
         Pedido that = (Pedido) o;
         return Objects.equals(cliente, that.getCliente()) && Objects.equals(data, that.getData());
+    }
+
+    public void aplicarDesconto(TipoDescontoEnum tipo) {
+        this.tipoDesconto = tipo;
+        this.desconto = tipo.desconto();
     }
 }
