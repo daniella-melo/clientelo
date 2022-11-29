@@ -51,6 +51,7 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(new PedidoDto(novo));
     }
 
+    //TODO: adicionar regras de ordenação e paginação
     @GetMapping("/all")
     public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder){
         try {
