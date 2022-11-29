@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -73,8 +74,11 @@ public class PedidoController {
     public ResponseEntity<PedidoDetailsDto> getById(@PathVariable(value="id") final Long id,
                                                     UriComponentsBuilder uriBuilder){
         try {
-            Pedido recoveredPedido = pedidoService.getById(id);
-            PedidoDetailsDto dto = new PedidoDetailsDto(recoveredPedido);
+            Optional<Pedido> recoveredPedido = pedidoService.getById(id);
+            if(!recoveredPedido.isPresent()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            PedidoDetailsDto dto = new PedidoDetailsDto(recoveredPedido.get());
             URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(recoveredPedido.getId()).toUri();
             return ResponseEntity.created(uri).body(dto);
         }catch (Exception e){
