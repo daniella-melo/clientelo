@@ -47,7 +47,7 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(new ProdutoDto(novo));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder){
         try {
             List<Produto> all = service.listaTodos();
