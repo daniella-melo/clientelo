@@ -76,7 +76,7 @@ public class PedidoController {
         try {
             Optional<Pedido> recoveredPedido = pedidoService.getById(id);
             if(!recoveredPedido.isPresent()){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                return ResponseEntity.notFound().build();
             }
             PedidoDetailsDto dto = new PedidoDetailsDto(recoveredPedido.get());
             URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(recoveredPedido.getId()).toUri();
