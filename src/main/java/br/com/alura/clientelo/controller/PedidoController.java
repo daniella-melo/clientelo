@@ -79,7 +79,7 @@ public class PedidoController {
                 return ResponseEntity.notFound().build();
             }
             PedidoDetailsDto dto = new PedidoDetailsDto(recoveredPedido.get());
-            URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(recoveredPedido.getId()).toUri();
+            URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(recoveredPedido.get().getId()).toUri();
             return ResponseEntity.created(uri).body(dto);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
