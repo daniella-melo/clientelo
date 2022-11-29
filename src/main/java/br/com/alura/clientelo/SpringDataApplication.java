@@ -1,7 +1,6 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.model.Cliente;
-import br.com.alura.clientelo.model.Endereco;
+import br.com.alura.clientelo.model.*;
 import br.com.alura.clientelo.projecao.ClienteFielProjecao;
 import br.com.alura.clientelo.projecao.VendaPorCategoriaProjecao;
 import br.com.alura.clientelo.repository.CategoriaRepository;
@@ -9,12 +8,14 @@ import br.com.alura.clientelo.repository.ClienteRepository;
 import br.com.alura.clientelo.service.CategoriaService;
 import br.com.alura.clientelo.service.ClienteService;
 import br.com.alura.clientelo.service.PedidoService;
+import br.com.alura.clientelo.service.ProdutoService;
 import br.com.alura.clientelo.vo.RelatorioClienteFiel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class SpringDataApplication implements CommandLineRunner {
 
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private ProdutoService produtoService;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringDataApplication.class, args);
@@ -51,5 +55,12 @@ public class SpringDataApplication implements CommandLineRunner {
 //        List<ClienteFielProjecao> clientesFieis = clienteService.getClientesFieis();
 //        List<ClienteFielProjecao> clientesMaisLucrativos = clienteService.getClientesMaisLucrativos();
 //        List<VendaPorCategoriaProjecao> vendaPorCategoriaProjecao = pedidoService.getVendasPorCategoria();
+
+        //    public Produto(String nome, BigDecimal precoUnitario, String descricao, int qntEmEstoque, Categoria categoria) {
+
+        Categoria categoria1 = new Categoria("AUTOMOTIVA", CategoriaStatusEnum.ATIVA);
+        categoriaService.cadastra(categoria1);
+        Produto produto = new Produto("produto teste", new BigDecimal(10), "descricao", 1, categoria1);
+        produtoService.cadastra(produto);
     }
 }
