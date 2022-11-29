@@ -56,4 +56,10 @@ public class PedidoService implements ServiceInterface<Long, Pedido>{
             pedido.aplicarDesconto(TipoDescontoEnum.NENHUM);
         }
     }
+
+    public Pedido getById(Long id) {
+        Optional<Pedido> optionalPedido = this.repository.findById(id);
+        if(optionalPedido.isPresent()){return optionalPedido.get();}
+        return null;
+    }
 }

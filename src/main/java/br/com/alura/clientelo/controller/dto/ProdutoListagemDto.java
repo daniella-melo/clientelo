@@ -1,14 +1,25 @@
 package br.com.alura.clientelo.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class ProdutoListagemDto {
 
+    @JsonProperty("Nome")
     private String nome;
+
+    @JsonProperty("Preço")
     private BigDecimal preco;
+    @JsonProperty("Descrição")
     private String descricao;
+    @JsonProperty("Quantidade em Estoque")
     private int qntEmEstoque;
+
+    @JsonProperty("ID da Categoria")
     private Long idCategoria;
+
+    @JsonProperty("Nome da Categoria")
     private String nomeCategoria;
 
     public ProdutoListagemDto(String nome, BigDecimal preco, String descricao,

@@ -1,9 +1,6 @@
 package br.com.alura.clientelo.controller;
 
-import br.com.alura.clientelo.controller.dto.PedidoDto;
-import br.com.alura.clientelo.controller.dto.PedidoListagemDto;
-import br.com.alura.clientelo.controller.dto.ProdutoDto;
-import br.com.alura.clientelo.controller.dto.ProdutoListagemDto;
+import br.com.alura.clientelo.controller.dto.*;
 import br.com.alura.clientelo.controller.form.PedidoForm;
 import br.com.alura.clientelo.controller.form.ProdutoForm;
 import br.com.alura.clientelo.model.Pedido;
@@ -70,4 +67,18 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @RequestMapping(value={"/{id}"}, method=RequestMethod.GET)
+    public ResponseEntity<PedidoDetailsDto> getById(@PathVariable(value="id") final Long id,
+                                                    UriComponentsBuilder uriBuilder){
+        try {
+            Pedido recoveredPedido = pedidoService.getById(id);
+            PedidoDetailsDto dto = new PedidoDetailsDto(recoveredPedido);
+            URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(recoveredPedido.getId()).toUri();
+            return ResponseEntity.created(uri).body(dto);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
