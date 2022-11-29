@@ -4,6 +4,8 @@ import br.com.alura.clientelo.model.Cliente;
 import br.com.alura.clientelo.projecao.ClienteFielProjecao;
 import br.com.alura.clientelo.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class ClienteService implements ServiceInterface<Long, Cliente>{
     }
 
     @Override
-    public List<Cliente> listaTodos() {
-        return this.repository.findAll();
+    public Page<Cliente> listaTodos(Pageable paginacao) {
+        return this.repository.findAll(paginacao);
     }
 
     public List<ClienteFielProjecao> getClientesFieis(){

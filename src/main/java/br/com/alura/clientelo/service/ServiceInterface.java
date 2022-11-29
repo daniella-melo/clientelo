@@ -1,5 +1,7 @@
 package br.com.alura.clientelo.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,5 +12,5 @@ public interface ServiceInterface <K,T>{
     void cadastra(T t);
     Optional<T> buscaPorId(K k);
     void atualiza(T t);
-    List<T> listaTodos();
+    Page<T> listaTodos(Pageable paginacao);
 }

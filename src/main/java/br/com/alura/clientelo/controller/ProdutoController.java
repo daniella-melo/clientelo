@@ -1,15 +1,15 @@
 package br.com.alura.clientelo.controller;
 
-import br.com.alura.clientelo.controller.dto.CategoriaDto;
 import br.com.alura.clientelo.controller.dto.ProdutoDto;
 import br.com.alura.clientelo.controller.dto.ProdutoListagemDto;
-import br.com.alura.clientelo.controller.form.CategoriaForm;
 import br.com.alura.clientelo.controller.form.ProdutoForm;
-import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.CategoriaService;
 import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.net.URI;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +47,13 @@ public class ProdutoController {
 
     //TODO: adicionar regras de ordenação e paginação
     @GetMapping("/all")
-    public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder){
+    public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
+                                                            @RequestParam(defaultValue = "0") int pagina,
+                                                            @RequestParam int qtd){
         try {
-            List<Produto> all = service.listaTodos();
+            Pageable paginacao = PageRequest.of(pagina, qtd);
+
+            Page<Produto> all = service.listaTodos(paginacao);
             List<ProdutoListagemDto> dto = new ArrayList<>();
             all.forEach(p -> {
                 ProdutoListagemDto obj = new ProdutoListagemDto(p.getNome(), p.getPrecoUnitario(),
@@ -59,8 +61,7 @@ public class ProdutoController {
                         p.getCategoria().getNome());
                 dto.add(obj);
             });
-            URI uri = uriBuilder.path("/api/produtos/all").buildAndExpand(dto).toUri();
-            return ResponseEntity.created(uri).body(dto);
+            return ResponseEntity.ok(dto);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

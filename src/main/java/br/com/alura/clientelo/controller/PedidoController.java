@@ -9,6 +9,9 @@ import br.com.alura.clientelo.service.ClienteService;
 import br.com.alura.clientelo.service.PedidoService;
 import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -54,17 +57,19 @@ public class PedidoController {
 
     //TODO: adicionar regras de ordenação e paginação
     @GetMapping("/all")
-    public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder){
+    public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
+                                                           @RequestParam(defaultValue = "0") int pagina,
+                                                           @RequestParam int qtd){
         try {
-            List<Pedido> all = service.listaTodos();
+            Pageable paginacao = PageRequest.of(pagina, qtd);
+            Page<Pedido> all = service.listaTodos(paginacao);
             List<PedidoListagemDto> dto = new ArrayList<>();
             all.forEach(p -> {
                 PedidoListagemDto obj = new PedidoListagemDto(p.getData(), p.getValorTotal(),
                         p.getDescontoTotal(), p.getQuantidadeProdutosVendidos(), p.getCliente());
                 dto.add(obj);
             });
-            URI uri = uriBuilder.path("/api/pedidos/all").buildAndExpand(dto).toUri();
-            return ResponseEntity.created(uri).body(dto);
+            return ResponseEntity.ok(dto);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

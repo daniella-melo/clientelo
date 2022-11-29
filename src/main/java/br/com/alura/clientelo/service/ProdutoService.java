@@ -3,6 +3,8 @@ package br.com.alura.clientelo.service;
 import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class ProdutoService implements ServiceInterface<Long, Produto> {
     }
 
     @Override
-    public List<Produto> listaTodos() {
-        return this.repository.findAll();
+    public Page<Produto> listaTodos(Pageable paginacao) {
+        return this.repository.findAll(paginacao);
     }
 
     public List<Produto> getIndisponiveis(){

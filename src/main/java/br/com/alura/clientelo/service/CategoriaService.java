@@ -3,6 +3,8 @@ package br.com.alura.clientelo.service;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +34,8 @@ public class CategoriaService implements ServiceInterface<Long, Categoria>{
     }
 
     @Override
-    public List<Categoria> listaTodos() {
-       return this.repository.findAll();
+    public Page<Categoria> listaTodos(Pageable paginacao) {
+       return this.repository.findAll(paginacao);
     }
 
     public Optional<Categoria> getById(Long id) {

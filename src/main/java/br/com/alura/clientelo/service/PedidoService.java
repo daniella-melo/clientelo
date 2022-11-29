@@ -5,6 +5,8 @@ import br.com.alura.clientelo.model.TipoDescontoEnum;
 import br.com.alura.clientelo.projecao.VendaPorCategoriaProjecao;
 import br.com.alura.clientelo.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +38,8 @@ public class PedidoService implements ServiceInterface<Long, Pedido>{
     }
 
     @Override
-    public List<Pedido> listaTodos() {
-        return this.repository.findAll();
+    public Page<Pedido> listaTodos(Pageable paginacao) {
+        return this.repository.findAll(paginacao);
     }
 
     public List<VendaPorCategoriaProjecao> getVendasPorCategoria(){
