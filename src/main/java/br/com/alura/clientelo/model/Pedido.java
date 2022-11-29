@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 @Table(name="pedido")
@@ -97,5 +98,30 @@ public class Pedido{
     public void aplicarDesconto(TipoDescontoEnum tipo) {
         this.tipoDesconto = tipo;
         this.desconto = tipo.desconto();
+    }
+
+    public BigDecimal getValorTotal(){
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        this.listItemDePedido.forEach(item -> {
+            BigDecimal valorParcial = item.getPrecoUnitario().multiply(new BigDecimal(item.getQuantidade()));
+            valorTotal.add(valorParcial);
+        });
+        return valorTotal;
+    }
+
+    public BigDecimal getDescontoTotal(){
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        this.listItemDePedido.forEach(item -> {
+            valorTotal.add(item.getDesconto());
+        });
+        return valorTotal.add(desconto);
+    }
+
+    public int getQuantidadeProdutosVendidos(){
+        AtomicInteger valorTotal = new AtomicInteger();
+        this.listItemDePedido.forEach(item -> {
+            valorTotal.addAndGet(item.getQuantidade());
+        });
+        return valorTotal.get();
     }
 }

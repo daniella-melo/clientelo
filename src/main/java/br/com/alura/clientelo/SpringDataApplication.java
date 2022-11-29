@@ -62,5 +62,15 @@ public class SpringDataApplication implements CommandLineRunner {
         categoriaService.cadastra(categoria1);
         Produto produto = new Produto("produto teste", new BigDecimal(10), "descricao", 1, categoria1);
         produtoService.cadastra(produto);
+        // public Pedido(Cliente cliente,
+        //                  TipoDescontoEnum tipoDesconto)
+        Endereco endereco = new Endereco("rua fake", "numero fake", null, "bairro fake",
+                "cidade fake", "estado fake");
+
+        Cliente cliente1 = new Cliente("Cliente 1", "11111111111", "999999999", endereco);
+        clienteService.cadastra(cliente1);
+
+        Pedido pedido = new Pedido(cliente1, TipoDescontoEnum.NENHUM);
+        pedidoService.cadastra(pedido);
     }
 }

@@ -1,7 +1,9 @@
 package br.com.alura.clientelo.controller;
 
 import br.com.alura.clientelo.controller.dto.PedidoDto;
+import br.com.alura.clientelo.controller.dto.PedidoListagemDto;
 import br.com.alura.clientelo.controller.dto.ProdutoDto;
+import br.com.alura.clientelo.controller.dto.ProdutoListagemDto;
 import br.com.alura.clientelo.controller.form.PedidoForm;
 import br.com.alura.clientelo.controller.form.ProdutoForm;
 import br.com.alura.clientelo.model.Pedido;
@@ -13,14 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -51,5 +52,22 @@ public class PedidoController {
 
         URI uri = uriBuilder.path("/api/produtos/new/{id}").buildAndExpand(novo.getId()).toUri();
         return ResponseEntity.created(uri).body(new PedidoDto(novo));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder){
+        try {
+            List<Pedido> all = service.listaTodos();
+            List<PedidoListagemDto> dto = new ArrayList<>();
+            all.forEach(p -> {
+                PedidoListagemDto obj = new PedidoListagemDto(p.getData(), p.getValorTotal(),
+                        p.getDescontoTotal(), p.getQuantidadeProdutosVendidos(), p.getCliente());
+                dto.add(obj);
+            });
+            URI uri = uriBuilder.path("/api/pedidos/all").buildAndExpand(dto).toUri();
+            return ResponseEntity.created(uri).body(dto);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
