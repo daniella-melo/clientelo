@@ -45,14 +45,10 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(new ProdutoDto(novo));
     }
 
-    //TODO: adicionar regras de ordenação e paginação
     @GetMapping("/all")
     public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
-                                                            @RequestParam(defaultValue = "0") int pagina,
-                                                            @RequestParam int qtd){
+                                                            Pageable paginacao){
         try {
-            Pageable paginacao = PageRequest.of(pagina, qtd);
-
             Page<Produto> all = service.listaTodos(paginacao);
             List<ProdutoListagemDto> dto = new ArrayList<>();
             all.forEach(p -> {

@@ -55,13 +55,10 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(new PedidoDto(novo));
     }
 
-    //TODO: adicionar regras de ordenação e paginação
     @GetMapping("/all")
     public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
-                                                           @RequestParam(defaultValue = "0") int pagina,
-                                                           @RequestParam int qtd){
+                                                           Pageable paginacao){
         try {
-            Pageable paginacao = PageRequest.of(pagina, qtd);
             Page<Pedido> all = service.listaTodos(paginacao);
             List<PedidoListagemDto> dto = new ArrayList<>();
             all.forEach(p -> {
