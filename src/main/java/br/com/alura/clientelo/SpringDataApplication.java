@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableSpringDataWebSupport
 @SpringBootApplication
 public class SpringDataApplication implements CommandLineRunner {
 
