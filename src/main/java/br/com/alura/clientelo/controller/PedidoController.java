@@ -59,7 +59,7 @@ public class PedidoController {
 
     @GetMapping("/all")
     public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
-         @PageableDefault(sort="data", direction = Sort.Direction.DESC) Pageable paginacao){
+         @PageableDefault(sort="data", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao){
         try {
             Page<Pedido> all = service.listaTodos(paginacao);
             List<PedidoListagemDto> dto = new ArrayList<>();

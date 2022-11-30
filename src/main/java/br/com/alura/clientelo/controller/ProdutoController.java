@@ -49,7 +49,7 @@ public class ProdutoController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
-            @PageableDefault(sort="nome", direction = Sort.Direction.ASC) Pageable paginacao){
+            @PageableDefault(sort="nome", direction = Sort.Direction.ASC, page = 0, size = 5) Pageable paginacao){
         try {
             Page<Produto> all = service.listaTodos(paginacao);
             List<ProdutoListagemDto> dto = new ArrayList<>();
