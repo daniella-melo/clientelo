@@ -1,4 +1,4 @@
-package br.com.alura.clientelo.config;
+package br.com.alura.clientelo.config.validator;
 
 public class ErroDeFormularioDto {
 

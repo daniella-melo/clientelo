@@ -7,6 +7,8 @@ import br.com.alura.clientelo.model.Produto;
 import br.com.alura.clientelo.service.CategoriaService;
 import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,7 @@ public class ProdutoController {
     private CategoriaService categoriaService;
 
     @PostMapping("/new")
+    @CacheEvict(value = "listaDeProdutos", allEntries = true)
     public ResponseEntity<ProdutoDto> inserirNovo(@RequestBody @Valid ProdutoForm form,
                                                   UriComponentsBuilder uriBuilder,
                                                   BindingResult result){
@@ -48,6 +51,7 @@ public class ProdutoController {
     }
 
     @GetMapping("/all")
+    @Cacheable(value = "listaDeProdutos")
     public ResponseEntity<List<ProdutoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
             @PageableDefault(sort="nome", direction = Sort.Direction.ASC, page = 0, size = 5) Pageable paginacao){
         try {

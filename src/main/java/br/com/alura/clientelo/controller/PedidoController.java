@@ -5,10 +5,13 @@ import br.com.alura.clientelo.controller.form.PedidoForm;
 import br.com.alura.clientelo.controller.form.ProdutoForm;
 import br.com.alura.clientelo.model.Pedido;
 import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.projecao.VendaPorCategoriaProjecao;
 import br.com.alura.clientelo.service.ClienteService;
 import br.com.alura.clientelo.service.PedidoService;
 import br.com.alura.clientelo.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +45,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
     @PostMapping("/new")
+    @CacheEvict(value = "listaDePedidos", allEntries = true)
     public ResponseEntity<PedidoDto> inserirNovo(@Valid PedidoForm form,
                                                  UriComponentsBuilder uriBuilder,
                                                  BindingResult result){
@@ -58,6 +62,7 @@ public class PedidoController {
     }
 
     @GetMapping("/all")
+    @Cacheable(value = "listaDePedidos")
     public ResponseEntity<List<PedidoListagemDto>> listAll(UriComponentsBuilder uriBuilder,
          @PageableDefault(sort="data", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable paginacao){
         try {
@@ -90,4 +95,14 @@ public class PedidoController {
         }
     }
 
+//    @GetMapping("/vendas")
+//    @Cacheable(value = "listaDePedidos")
+//    public ResponseEntity<List<VendaPorCategoriaDto>> vendas(){
+//        try {
+//            List<VendaPorCategoriaProjecao> vendas = pedidoService.getVendasPorCategoria();
+//
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 }

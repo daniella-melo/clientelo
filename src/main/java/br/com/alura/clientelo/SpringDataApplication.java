@@ -14,14 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@EnableSpringDataWebSupport
 @SpringBootApplication
+@EnableSpringDataWebSupport
+@EnableCaching
 public class SpringDataApplication implements CommandLineRunner {
 
     @Autowired
