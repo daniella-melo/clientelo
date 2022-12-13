@@ -1,5 +1,6 @@
 package br.com.alura.clientelo.controller;
 
+import br.com.alura.clientelo.controller.dto.TokenDto;
 import br.com.alura.clientelo.controller.form.LoginForm;
 import br.com.alura.clientelo.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
     @PostMapping
-    public ResponseEntity<?> autenticar(@Valid LoginForm form){
+    public ResponseEntity<TokenDto> autenticar(@Valid LoginForm form){
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
         try {
             Authentication authentication = authmanager.authenticate(dadosLogin);
             String token = tokenService.gerarToken(authentication);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
         }catch (AuthenticationException e){
             return ResponseEntity.badRequest().build();
         }
