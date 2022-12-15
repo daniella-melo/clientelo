@@ -59,6 +59,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     //configuracoes de recursos estaticos (js, css, imagens, etc)
     @Override
     public void configure(WebSecurity web) throws Exception {
+        // nao precisa logar para acessar as infos sobre a API no swagger
+        web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**","/configuration/**", "/swagger-resources/**");
     }
 
     public String getEncodedPassword(String rawSenha){
