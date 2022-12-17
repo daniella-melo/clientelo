@@ -5,6 +5,7 @@ import br.com.alura.clientelo.controller.form.CategoriaForm;
 import br.com.alura.clientelo.model.Categoria;
 import br.com.alura.clientelo.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/categorias")
+@Profile(value = {"prod", "test"})
 public class CategoriaController {
 
     @Autowired
