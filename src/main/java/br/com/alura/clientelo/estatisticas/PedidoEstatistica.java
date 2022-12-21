@@ -1,7 +1,7 @@
 package br.com.alura.clientelo.estatisticas;
 
-import br.com.alura.clientelo.model.Pedido;
-import br.com.alura.clientelo.model.Produto;
+import br.com.alura.clientelo.model.pedido.Pedido;
+import br.com.alura.clientelo.model.produto.Produto;
 
 import java.math.BigDecimal;
 

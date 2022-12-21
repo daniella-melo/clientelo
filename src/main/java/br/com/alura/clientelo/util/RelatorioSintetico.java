@@ -1,13 +1,5 @@
 package br.com.alura.clientelo.util;
 
-import br.com.alura.clientelo.estatisticas.PedidoEstatistica;
-import br.com.alura.clientelo.model.Pedido;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 public class RelatorioSintetico {
 //    private int totalDeProdutosVendidos= 0;
 //    private int totalDePedidosRealizados= 0;

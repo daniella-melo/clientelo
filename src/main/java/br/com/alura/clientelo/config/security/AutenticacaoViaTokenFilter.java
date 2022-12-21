@@ -1,9 +1,8 @@
 package br.com.alura.clientelo.config.security;
 
-import br.com.alura.clientelo.model.Usuario;
-import br.com.alura.clientelo.repository.UsuarioRepository;
-import br.com.alura.clientelo.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.alura.clientelo.model.usuario.Usuario;
+import br.com.alura.clientelo.repository.usuario.UsuarioJpaRepository;
+import br.com.alura.clientelo.service.token.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,11 +17,11 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
    //não da para colocar autowired
      private TokenService tokenService;
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
     public AutenticacaoViaTokenFilter(TokenService tokenService,
-                                      UsuarioRepository usuarioRepository) {
+                                      UsuarioJpaRepository usuarioJpaRepository) {
         this.tokenService = tokenService;
-        this.usuarioRepository = usuarioRepository;
+        this.usuarioJpaRepository = usuarioJpaRepository;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
     private void autenticarCliente(String token){
         Long idUsuario = tokenService.getIdUsuario(token);
-        Usuario usuario = usuarioRepository.findById(idUsuario).get();
+        Usuario usuario = usuarioJpaRepository.findById(idUsuario).get();
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

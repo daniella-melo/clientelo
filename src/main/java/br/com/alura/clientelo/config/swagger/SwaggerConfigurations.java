@@ -1,7 +1,7 @@
 package br.com.alura.clientelo.config.swagger;
 
 
-import br.com.alura.clientelo.model.Usuario;
+import br.com.alura.clientelo.model.usuario.Usuario;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ParameterBuilder;

@@ -1,8 +1,8 @@
 package br.com.alura.clientelo.config.security;
 
-import br.com.alura.clientelo.repository.UsuarioRepository;
-import br.com.alura.clientelo.service.AutenticacaoService;
-import br.com.alura.clientelo.service.TokenService;
+import br.com.alura.clientelo.repository.usuario.UsuarioJpaRepository;
+import br.com.alura.clientelo.service.auth.AutenticacaoService;
+import br.com.alura.clientelo.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioJpaRepository;
 
     @Override
     @Bean
@@ -55,7 +55,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioJpaRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
     //configuracoes de recursos estaticos (js, css, imagens, etc)

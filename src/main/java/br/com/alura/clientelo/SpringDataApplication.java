@@ -1,15 +1,16 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.model.*;
-import br.com.alura.clientelo.projecao.ClienteFielProjecao;
-import br.com.alura.clientelo.projecao.VendaPorCategoriaProjecao;
-import br.com.alura.clientelo.repository.CategoriaRepository;
-import br.com.alura.clientelo.repository.ClienteRepository;
-import br.com.alura.clientelo.service.CategoriaService;
-import br.com.alura.clientelo.service.ClienteService;
-import br.com.alura.clientelo.service.PedidoService;
-import br.com.alura.clientelo.service.ProdutoService;
-import br.com.alura.clientelo.vo.RelatorioClienteFiel;
+import br.com.alura.clientelo.model.categoria.Categoria;
+import br.com.alura.clientelo.model.categoria.CategoriaStatusEnum;
+import br.com.alura.clientelo.model.cliente.Cliente;
+import br.com.alura.clientelo.model.cliente.Endereco;
+import br.com.alura.clientelo.model.pedido.Pedido;
+import br.com.alura.clientelo.model.pedido.desconto.TipoDescontoEnum;
+import br.com.alura.clientelo.model.produto.Produto;
+import br.com.alura.clientelo.service.categoria.CategoriaService;
+import br.com.alura.clientelo.service.cliente.ClienteService;
+import br.com.alura.clientelo.service.pedido.PedidoService;
+import br.com.alura.clientelo.service.produto.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,8 +20,6 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
