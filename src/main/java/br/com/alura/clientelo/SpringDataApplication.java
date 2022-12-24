@@ -1,16 +1,16 @@
 package br.com.alura.clientelo;
 
-import br.com.alura.clientelo.model.categoria.Categoria;
-import br.com.alura.clientelo.model.categoria.CategoriaStatusEnum;
-import br.com.alura.clientelo.model.cliente.Cliente;
-import br.com.alura.clientelo.model.cliente.Endereco;
-import br.com.alura.clientelo.model.pedido.Pedido;
-import br.com.alura.clientelo.model.pedido.desconto.TipoDescontoEnum;
-import br.com.alura.clientelo.model.produto.Produto;
-import br.com.alura.clientelo.service.categoria.CategoriaService;
-import br.com.alura.clientelo.service.cliente.ClienteService;
-import br.com.alura.clientelo.service.pedido.PedidoService;
-import br.com.alura.clientelo.service.produto.ProdutoService;
+import br.com.alura.clientelo.dominio.model.categoria.Categoria;
+import br.com.alura.clientelo.dominio.model.categoria.CategoriaStatusEnum;
+import br.com.alura.clientelo.dominio.model.cliente.Cliente;
+import br.com.alura.clientelo.dominio.model.cliente.Endereco;
+import br.com.alura.clientelo.dominio.model.pedido.Pedido;
+import br.com.alura.clientelo.dominio.model.pedido.TipoDescontoEnum;
+import br.com.alura.clientelo.dominio.model.produto.Produto;
+import br.com.alura.clientelo.aplicacao.service.categoria.CategoriaService;
+import br.com.alura.clientelo.aplicacao.service.cliente.ClienteService;
+import br.com.alura.clientelo.aplicacao.service.pedido.PedidoService;
+import br.com.alura.clientelo.aplicacao.service.produto.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
